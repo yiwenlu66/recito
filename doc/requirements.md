@@ -9,3 +9,59 @@
 9. 单词难度自动调整，基于用户记忆单词结果和用户单词测试结果。
 10. //其实宝宝还想支持多用户模式，即另加一个文件来记录用户信息。
 11. //这样可以给出用户单独的评级。
+
+接口：进入时命令行跳出：
+“Please choose :M for (Memory method),D for (Dictionary Method),L for (Test Method),E for (Edit Method),T for(Text Method) Q for(quit):"
+
+	input "M":
+	"[A word]   do you know (y/n) (q to quit and go back to previous menu):" 
+	...
+	"Congratualtions you have completed this mission"
+
+	input "D": 
+		"Please input the word you want to check(q to quit and go back to previous menu):"
+			Explanation 1: Example sentence 1;Example sentence 2...  (if the sentence is added by the user ,show the editor and the time)
+			Explanation 2:Example sentence 1;Example sentence 2
+			.
+			.
+			.
+			"(any input to go back to previous menu)"
+
+
+
+	input "L":
+		"[ask a question](q to quit and go back to previous menu)"
+		...
+		"Congratualtions you have completed this test you score is[a number](any input to go back to previous menu)"
+
+	input "E":
+		"M for(change memory stragety),T for (change Test stragety),W for (Adding sentence for certain word),q for(go back to previous menu)"
+		input "M":
+			"Please input the number of the chosen stragety 1.[Stragetyname1]2.[Stragetyname2]...(q to quit and go back to previous menu)"
+			"stragety changed(any input to go back to previous menu)"
+		input "T":
+			"Please input the number of the chosen stragety 1.[Stragetyname1]2.[Stragetyname2]...(q to quit and go back to previous menu)"
+			"stragety changed(any input to go back to previous menu)"
+		input "W":
+			"Please input the word you are searching":
+				Explanation 1: Example sentence 1;Example sentence 2...  (if the sentence is added by the user ,show the editor and the time)
+				Explanation 2:Example sentence 1;Example sentence 2
+				.
+				.
+				.
+				"Please input a number for the Explanation you1 want to add a sentence(q to quit and go back to previous menu)":
+				"Please input the sentence(q to quit and go back to previous menu)":
+				"done(any input to go back to previous menu)"
+	input"T":
+		"Please input a filename(q to quit and go back to previous menu)"
+		show:
+		the unfamilar word1:all the explanations
+		...
+		"done(any input to go back to previous menu)"
+		
+All invalid input will result in the output:
+	"invalid (any input to continue)"
+then the program will repeat the last operation.
+
+
+
