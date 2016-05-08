@@ -189,6 +189,11 @@
 			m) back to main menu
 			```
 
+- 编辑模式：
+	```plain
+	Please enter the new example:
+	
+	```
 - 对所有非法输入：
 	```plain
 	Invalid input. Please re-enter:
