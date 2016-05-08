@@ -12,8 +12,8 @@
 
 ##算法
 - 算法模块提供三个函数：
-	1. 间歇函数：基于SM2算法（https://www.supermemo.com/english/ol/sm2.htm）。输入EF,q,I，返回新的EF和I。
-	2. 分组函数（参考anki: http://ankisrs.net/docs/manual.html#types-of-cards）：输入原分组、所有历史上的熟悉程度、由间歇函数给出的EI和I，返回新分组。
+	1. 间歇函数：基于SM2算法（[https://www.supermemo.com/english/ol/sm2.htm](https://www.supermemo.com/english/ol/sm2.htm)）。输入EF,q,I，返回新的EF和I。
+	2. 分组函数（参考anki: [http://ankisrs.net/docs/manual.html#types-of-cards](http://ankisrs.net/docs/manual.html#types-of-cards)）：输入原分组、所有历史上的熟悉程度、由间歇函数给出的EI和I，返回新分组。
 	3. 选择函数：输入候选的单词列表及其EF,I，以迭代器的形式返回下一个需要记忆的单词。
 
 ## 用户界面
