@@ -93,6 +93,6 @@ details TBA
 	- `enum class Group {UNSEEN, LEARN, YOUNG, MATURE, RELEARN, SUSPENDED};`
 
 ##Coding style
-- Please conform to the [K&R coding style](https://en.wikipedia.org/wiki/Indent_style#K.26R_style).
+- Please conform to the [Allman coding style](https://en.wikipedia.org/wiki/Indent_style#Allman_style).
 - Use `camelCase` for object names, and `UpperCamelCase` for class names. Prefix private member variables with `m`: `mPrivateMemberVariable`.
 
