@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.1)
 project (recito)
-add_executable (recito src/common.cpp src/algorithm/recito_algorithm.cpp src/main/main.cpp src/main/Control.cpp src/main/ControlFactory.cpp src/main/Database.cpp src/main/Display.cpp src/main/Fragment.cpp src/main/MainLoop.cpp src/main/Record.cpp src/main/View.cpp src/main/ViewFactory.cpp src/main/Widget.cpp)
+add_executable (recito src/common.cpp src/algorithm/recito_algorithm.cpp src/main/main.cpp src/main/Control.cpp src/main/ControlFactory.cpp src/main/Database.cpp src/main/Display.cpp src/main/Fragment.cpp src/main/MainLoop.cpp src/main/Record.cpp src/main/View.cpp src/main/ViewFactory.cpp src/main/Widget.cpp src/main/CommandLineParser.cpp)
 add_executable (recito_test test/test.cpp)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
