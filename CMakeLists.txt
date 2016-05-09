@@ -1,0 +1,5 @@
+cmake_minimum_required (VERSION 3.1)
+project (recito)
+add_executable (recito src/algorithm/recito_algorithm.cpp src/main/main.cpp src/common.cpp)
+add_executable (test test.cpp)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
