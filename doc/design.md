@@ -72,9 +72,9 @@
 			- `virtual void show(const View&)`
 	- `enum class ViewClass {MAIN_MENU, CHOOSE_CATEGORY, REVIEW_QUESTION, REVIEW_ANSWER, REVIEW_COMPLETE, DICT_MENU, DICT_INPUT, DICT_HISTORY, DICT_WORD, DICT_WORD_NOT_EXIST, EXAM_CHOOSE_NUMBER, EXAM_QUESTION, EXAM_ANSWER, EXAM_COMPLETE, TEXT_CHOOSE_FILE, TEXT_FILE_CHOSEN, TEXT_WORD, EDIT};`
 	make subclasses of `View` correspondingly
+	- `enum class ControlClass {MAIN_MENU, MEMORY, DICT, EXAM, TEXT, QUIT};`
 	- `Control`
-		- private `bool mRun`, `View* mView`
-		- `void stop()`
+		- private `View* mView`
 		- `void setView(ViewClass)`
 		delete old view and set new view (use `ViewFactory`)
 		- `const View& getView()`
@@ -83,6 +83,8 @@
 	- `ViewFactory`
 		- `View* make(ViewClass)`
 			read information from `Control` and redirect if necessary
+	- `MainLoop`
+	- `ControlFactory`
 	- common utilities
 		- `vector<string> split(string s, string delimiter)`
 - `algorithm`
