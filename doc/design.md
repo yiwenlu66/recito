@@ -43,8 +43,8 @@
 			- `virtual void update(KeyType key);`
 			stage changes for commit (sync the key to `mKeyTextMap`)
 			- `virtual void add(KeyType key, const RecordType& record);`
-	- `Widget`
 			extend `Database<KeyType, RecordType>::add()` by syncing to `mKeyTextMap`
+	- `Widget`
 		- `virtual bool handleInput(string)`
 			do nothing in the base class; return `true` if the input is handled
 		- `virtual string toString()`
@@ -95,4 +95,5 @@ details TBA
 ##Coding style
 - Please conform to the [Allman coding style](https://en.wikipedia.org/wiki/Indent_style#Allman_style).
 - Use `camelCase` for object names, and `UpperCamelCase` for class names. Prefix private member variables with `m`: `mPrivateMemberVariable`.
+- Use spaces instead of tabs; 4 spaces for a tab.
 
