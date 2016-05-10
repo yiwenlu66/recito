@@ -1,11 +1,21 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include "../src/algorithm/recito_algorithm.hpp"
+#include "../src/common.hpp"
 #include <cmath>
 
 using namespace std;
 
 const double EPS = 1e-6;
+
+TEST_CASE("test for common utilities", "[common]")
+{
+    SECTION("test for split")
+    {
+        REQUIRE(split("Lorem ipsum dolor sit amet", ' ') == vector<string>({"Lorem", "ipsum", "dolor", "sit", "amet"}));
+        REQUIRE(split("Lorem\tipsum\tdolor\tsit\tamet", '\t') == vector<string>({"Lorem", "ipsum", "dolor", "sit", "amet"}));
+    }
+}
 
 TEST_CASE("test for recito_algorithm", "[algorithm]")
 {

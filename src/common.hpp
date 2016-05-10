@@ -16,6 +16,6 @@ enum class Group
     SUSPENDED
 };
 
-vector<string> split(string s, string delimiter);
+vector<string> split(string s, char delimiter);
 
 #endif
