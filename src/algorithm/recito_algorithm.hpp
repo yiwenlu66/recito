@@ -2,7 +2,6 @@
 #define RECITO_ALGORITHM_HPP
 
 #include "../common.hpp"
-#include "../main/Record.hpp"
 #include <vector>
 #include <map>
 
@@ -12,15 +11,23 @@ vector<double> interval(double EF, int q, double I);  // implement SM2 algorithm
 
 Group group(Group oldGroup, const vector<int>& answers, double EF, double I);   // find new group by Anki standard: https://www.supermemo.com/english/ol/sm2.htm
 
+struct WordWithEFI
+{
+    WordWithEFI(string, double, double);
+    string word;
+    double EF;
+    double I;
+};
+
 class WordIterator
 {
 public:
-    WordIterator(map<string, WordRecord*>);
+    WordIterator(map<string, WordWithEFI*>);
     string next();  // return a word and pop it; return empty string if all words have been traversed through
-    void add(WordRecord&);
+    void add(WordWithEFI*);
 
 private:
-    map<string, WordRecord*> mWordsToBeTested;
+    map<string, WordWithEFI*> mWordsToBeTested;
 };
 
 #endif

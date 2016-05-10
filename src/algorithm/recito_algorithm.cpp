@@ -69,8 +69,7 @@ Group group(Group oldGroup, const vector<int>& answers, double EF, double I)
     }
 }
 
-/* Uncomment after WordRecord is completed
-WordIterator::WordIterator(map<string, WordRecord*> keyRecordMap)
+WordIterator::WordIterator(map<string, WordWithEFI*> keyRecordMap)
     : mWordsToBeTested(keyRecordMap)
 {
 }
@@ -88,19 +87,25 @@ string WordIterator::next()
                          mWordsToBeTested.end(),
                          [] (const pairType& p1, const pairType& p2)
                             {
-                                return p1.second->getAlgorithmOutput()[1] < p2.second->getAlgorithmOutput()[1]; // compare intervals
+                                return p1.second->I > p2.second->I;
                             }
                      );
     mWordsToBeTested.erase(maxCursor->first);
-    return maxCursor->second->getKey();
+    string word = maxCursor->second->word;
+    delete maxCursor->second;
+    return word;
 }
 
-void WordIterator::add(WordRecord& wordRecord)
+void WordIterator::add(WordWithEFI* wordWithEFI)
 {
-    if (mWordsToBeTested.find(wordRecord.getKey()) != mWordsToBeTested.end())
+    if (mWordsToBeTested.find(wordWithEFI->word) != mWordsToBeTested.end())
     {
         throw * (new runtime_error("Key exists!"));
     }
-    mWordsToBeTested[wordRecord.getKey()] = &wordRecord;
+    mWordsToBeTested.insert(pair<string, WordWithEFI*>(wordWithEFI->word, wordWithEFI));
 }
-*/
+
+WordWithEFI::WordWithEFI(string word, double EF, double I)
+    : word(word), EF(EF), I(I)
+{
+}
