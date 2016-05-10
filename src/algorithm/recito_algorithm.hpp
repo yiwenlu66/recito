@@ -8,7 +8,7 @@
 
 using namespace std;
 
-vector<double> interval(double EF, int q, double I);  // implement SM2 algorithm: https://www.supermemo.com/english/ol/sm2.htm, return new EF and new I
+vector<double> interval(double EF, int q, double I);  // implement SM2 algorithm: https://www.supermemo.com/english/ol/sm2.htm, return new EF and new I; pass in 0 for EF and I for an unseen word.
 
 Group group(Group oldGroup, const vector<int>& answers, double EF, double I);   // find new group by Anki standard: https://www.supermemo.com/english/ol/sm2.htm
 
