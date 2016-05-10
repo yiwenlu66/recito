@@ -12,9 +12,11 @@ public:
     CommandLineParser(int argc, char* argv[]);
     bool keyExists(string key);
     string getValue(string key);
+    string getName();
 
 private:
-    vector<string> mSplit;  // call split() from common.hpp
+    vector<string> mElements;
+    int index(string key);
 };
 
 #endif
