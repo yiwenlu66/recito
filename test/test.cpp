@@ -112,15 +112,15 @@ TEST_CASE("test for recito_algorithm", "[algorithm]")
 
     SECTION("test for WordIterator")
     {
-        map<string, WordWithEFI*> testMap;
+        vector<WordWithEFI*> words;
         WordWithEFI* word1 = new WordWithEFI("word1", 2, 2);
         WordWithEFI* word2 = new WordWithEFI("word2", 2, 5);
         WordWithEFI* word3 = new WordWithEFI("word3", 2, 3);
         WordWithEFI* word4 = new WordWithEFI("word4", 2, 1);
-        testMap.insert(pair<string, WordWithEFI*>(word1->word, word1));
-        testMap.insert(pair<string, WordWithEFI*>(word2->word, word2));
-        testMap.insert(pair<string, WordWithEFI*>(word3->word, word3));
-        WordIterator wordIterator(testMap);
+        words.push_back(word1);
+        words.push_back(word2);
+        words.push_back(word3);
+        WordIterator wordIterator(words);
         REQUIRE(wordIterator.next() == "word1");
         REQUIRE(wordIterator.next() == "word3");
         REQUIRE(wordIterator.next() == "word2");

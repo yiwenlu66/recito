@@ -3,7 +3,6 @@
 
 #include "../common.hpp"
 #include <vector>
-#include <map>
 
 using namespace std;
 
@@ -22,12 +21,13 @@ struct WordWithEFI
 class WordIterator
 {
 public:
-    WordIterator(map<string, WordWithEFI*>);
+    WordIterator(vector<WordWithEFI*>);
     string next();  // return a word and pop it; return empty string if all words have been traversed through
     void add(WordWithEFI*);
 
 private:
-    map<string, WordWithEFI*> mWordsToBeTested;
+    vector<WordWithEFI*> mWordsToBeTested;
+    void sortWords();
 };
 
 #endif

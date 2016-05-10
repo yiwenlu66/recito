@@ -69,9 +69,18 @@ Group group(Group oldGroup, const vector<int>& answers, double EF, double I)
     }
 }
 
-WordIterator::WordIterator(map<string, WordWithEFI*> keyRecordMap)
-    : mWordsToBeTested(keyRecordMap)
+WordIterator::WordIterator(vector<WordWithEFI*> words)
+    : mWordsToBeTested(words)
 {
+    sortWords();
+}
+
+void WordIterator::sortWords()
+{
+    sort(mWordsToBeTested.begin(), mWordsToBeTested.end(), [](const WordWithEFI * p1, const WordWithEFI * p2)
+    {
+        return p1->I > p2->I;
+    });
 }
 
 string WordIterator::next()
@@ -80,29 +89,24 @@ string WordIterator::next()
     {
         return "";
     }
-    using pairType = decltype(mWordsToBeTested)::value_type;
-    auto maxCursor = max_element
-                     (
-                         mWordsToBeTested.begin(),
-                         mWordsToBeTested.end(),
-                         [] (const pairType& p1, const pairType& p2)
-                            {
-                                return p1.second->I > p2.second->I;
-                            }
-                     );
-    mWordsToBeTested.erase(maxCursor->first);
-    string word = maxCursor->second->word;
-    delete maxCursor->second;
+    WordWithEFI* minIntervalPointer = mWordsToBeTested.back();
+    mWordsToBeTested.pop_back();
+    string word = minIntervalPointer->word;
+    delete minIntervalPointer;
     return word;
 }
 
 void WordIterator::add(WordWithEFI* wordWithEFI)
 {
-    if (mWordsToBeTested.find(wordWithEFI->word) != mWordsToBeTested.end())
+    for (auto ptr : mWordsToBeTested)
     {
-        throw * (new runtime_error("Key exists!"));
+        if (ptr->word == wordWithEFI->word)
+        {
+            throw * (new runtime_error("Key exists!"));
+        }
     }
-    mWordsToBeTested.insert(pair<string, WordWithEFI*>(wordWithEFI->word, wordWithEFI));
+    mWordsToBeTested.push_back(wordWithEFI);
+    sortWords();
 }
 
 WordWithEFI::WordWithEFI(string word, double EF, double I)
