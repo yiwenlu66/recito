@@ -109,6 +109,14 @@ void WordIterator::add(WordWithEFI* wordWithEFI)
     sortWords();
 }
 
+WordIterator::~WordIterator()
+{
+    for (auto ptr : mWordsToBeTested)
+    {
+        delete ptr;
+    }
+}
+
 WordWithEFI::WordWithEFI(string word, double EF, double I)
     : word(word), EF(EF), I(I)
 {

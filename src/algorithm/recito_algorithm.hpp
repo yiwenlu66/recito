@@ -24,6 +24,7 @@ public:
     WordIterator(vector<WordWithEFI*>);
     string next();  // return a word and pop it; return empty string if all words have been traversed through
     void add(WordWithEFI*);
+    ~WordIterator();
 
 private:
     vector<WordWithEFI*> mWordsToBeTested;
