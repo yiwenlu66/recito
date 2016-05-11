@@ -1,42 +1,45 @@
-#include"Database.hpp"
-#include"Record.hpp"
-#include<iostream>
-#include<fstream>
-#include<string>
-#include<map>
+#include "Database.hpp"
+#include "Record.hpp"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <map>
+
 using namespace std;
-// TODO
-template<class KeyType,class RecordType>
-void Database< KeyType,RecordType>::load(string filename)
+
+template<class KeyType, class RecordType>
+void Database<KeyType, RecordType>::load(string fileName)
 {
     ifstream fin;
-    fin.open(filename);
+    fin.open(fileName);
     if (fin.is_open())
     {
-        mFileName=filename;
+        mFileName = fileName;
         fin.close();
     }
     else
     {
-        cout << "fail in open files\n";
+        cout << "fail in open files" << endl;
         fin.close();
         exit(1);
     }
 }
+
 template<class KeyType, class RecordType>
-RecordType* Database<KeyType, RecordType>::get(KeyType key)const
+RecordType* Database<KeyType, RecordType>::get(KeyType key) const
 {
-    typename map<KeyType, RecordType*>::iterator it;
-    it = mKeyRecordMap.find(key);
-    if (it == mKeyRecordMap.end())
+    typename map<KeyType, RecordType*>::iterator iter;
+    iter = mKeyRecordMap.find(key);
+    if (iter == mKeyRecordMap.end())
     {
         return nullptr;
     }
     else
     {
-        return it->second;
+        return iter->second;
     }
 }
+
 template<class KeyType, class RecordType>
 void Database<KeyType, RecordType>::add(KeyType key, const RecordType&record)
 {
@@ -67,12 +70,14 @@ void TextDatabase<KeyType, RecordType>::load(string filename)
     }
     fin.close();
 }
+
 template<class KeyType, class RecordType>
 void TextDatabase<KeyType, RecordType>::add(KeyType key, const RecordType& record)
 {
-     Database<KeyType, RecordType>::add(key, record);
-     this->mKeyTextMap[key] = record.toString();
+    Database<KeyType, RecordType>::add(key, record);
+    this->mKeyTextMap[key] = record.toString();
 }
+
 template<class KeyType, class RecordType>
 void TextDatabase<KeyType, RecordType>::update(KeyType key)
 {
@@ -85,19 +90,15 @@ void TextDatabase<KeyType, RecordType>::update(KeyType key)
         cout << "no such input" << endl;
     }
 }
+
 template<class KeyType, class RecordType>
 void TextDatabase<KeyType, RecordType>::commit()
 {
-    ofstream fout(this->mFileName,"w");
+    ofstream fout(this->mFileName, "w");
     typename map<KeyType, string>::iterator it;
     for (it = this->mKeyTextMap.begin(); it != this->mKeyTextMap.end(); it++)
     {
         fout << it->second << endl;
     }
     fout.close();
-
 }
-
-
-
-

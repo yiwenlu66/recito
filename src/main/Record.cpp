@@ -1,66 +1,63 @@
 #include "Record.hpp"
-#include<sstream>
+#include <sstream>
 
-// TODO
 template<class KeyType>
-KeyType Record<KeyType>::getKey()const
+KeyType Record<KeyType>::getKey() const
 {
     return mKey;
 }
+
 WordRecord::WordRecord(string str)
 {
 
-   vector<string>inputs= split(str, '\t');
-   mKey = inputs[0];
-   mExample = inputs[1];
-   mExplanation = inputs[2];
-   switch (inputs[3][0]-'0')
-   {
-   case 0:
-       mGroup = Group::UNSEEN;
-       break;
-   case 1:
-       mGroup = Group::LEARN;
-       break;
-   case 2:
-       mGroup = Group::YOUNG;
-       break;
-   case 3:
-       mGroup = Group::MATURE;
-       break;
-   case 4:
-       mGroup = Group::RELEARN;
-       break;
-   case 5:
-       mGroup = Group::SUSPENDED;
-       break;
-   default:
-       break;
-   }
-   vector<string>ans = split(inputs[4], ';');
-   for (int i = 0; i < ans.size(); i++)
-   {
-       mAnswers[i] = ans[i][0] - '0';
-   }
-   vector<string>Alg = split(inputs[5], ';');
-   for (int i = 0; i < Alg.size(); i++)
-   {
-       mAlgorithmOutput[i] = atof(Alg[i].c_str());
-   }
-
-   
-
-
+    vector<string> inputs = split(str, '\t');
+    mKey = inputs[0];
+    mExample = inputs[1];
+    mExplanation = inputs[2];
+    switch (inputs[3][0] - '0')
+    {
+    case 0:
+        mGroup = Group::UNSEEN;
+        break;
+    case 1:
+        mGroup = Group::LEARN;
+        break;
+    case 2:
+        mGroup = Group::YOUNG;
+        break;
+    case 3:
+        mGroup = Group::MATURE;
+        break;
+    case 4:
+        mGroup = Group::RELEARN;
+        break;
+    case 5:
+        mGroup = Group::SUSPENDED;
+        break;
+    default:
+        break;
+    }
+    vector<string> ans = split(inputs[4], ';');
+    for (int i = 0; i < ans.size(); i++)
+    {
+        mAnswers[i] = ans[i][0] - '0';
+    }
+    vector<string> Alg = split(inputs[5], ';');
+    for (int i = 0; i < Alg.size(); i++)
+    {
+        mAlgorithmOutput[i] = atof(Alg[i].c_str());
+    }
 }
-string WordRecord::toString()const
+
+string WordRecord::toString() const
 {
     stringstream ss;
     ss << mKey << '\t' << mExample << '\t' << mExplanation << '\t' << char(int(mGroup) + '0') << '\t';
-    for (int i = 0; i < mAnswers.size()-1; i++)
+    for (int i = 0; i < mAnswers.size() - 1; i++)
     {
         ss << char(mAnswers[i] + '0') << ';';
     }
-    ss << char(*mAnswers.end()+ '0') << '\t';
+    ss << char(*mAnswers.end() + '0') << '\t';
     for (int i = 0; i < mAlgorithmOutput.size() - 1; i++)
     {
         ss << char(mAlgorithmOutput[i] + '0') << ';';
@@ -68,42 +65,48 @@ string WordRecord::toString()const
     ss << char(*mAlgorithmOutput.end() + '0') << '\t';
     string result = ss.str();
     return result;
-
-    
-
 }
-string WordRecord::getExample()const
+
+string WordRecord::getExample() const
 {
     return mExample;
 }
-string WordRecord::getExplanation()const
+
+string WordRecord::getExplanation() const
 {
     return mExplanation;
 }
-Group WordRecord::getGroup()const
+
+Group WordRecord::getGroup() const
 {
     return mGroup;
 }
-const vector<int>& WordRecord::getAnswers()const
+
+const vector<int>& WordRecord::getAnswers() const
 {
     return mAnswers;
 }
-const vector<double>& WordRecord::getAlgorithmOutput()const
+
+const vector<double>& WordRecord::getAlgorithmOutput() const
 {
     return mAlgorithmOutput;
 }
+
 void WordRecord::setExample(string exp)
 {
     mExample = exp;
 }
+
 void WordRecord::setGroup(Group group)
 {
     mGroup = group;
 }
-void WordRecord::setAlgorithmOutput(vector<double>al)
+
+void WordRecord::setAlgorithmOutput(vector<double> al)
 {
     mAlgorithmOutput = al;
 }
+
 void WordRecord::addAnswer(int m)
 {
     mAnswers.push_back(m);
@@ -113,7 +116,8 @@ HistoryRecord::HistoryRecord(string str)
 {
     mKey = str;
 }
-string HistoryRecord::toString()const
+
+string HistoryRecord::toString() const
 {
     return mKey;
 }

@@ -11,7 +11,7 @@ template <class KeyType>
 class Record
 {
 public:
-    Record()=default;
+    Record() = default;
     virtual string toString() const = 0;
     KeyType getKey() const;
 protected:
