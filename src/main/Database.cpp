@@ -26,7 +26,7 @@ void Database< KeyType,RecordType>::load(string filename)
 template<class KeyType, class RecordType>
 RecordType* Database<KeyType, RecordType>::get(KeyType key)const
 {
-    map<KeyType, RecordType*>::iterator it;
+    typename map<KeyType, RecordType*>::iterator it;
     it = mKeyRecordMap.find(key);
     if (it == mKeyRecordMap.end())
     {
@@ -58,7 +58,7 @@ void TextDatabase<KeyType, RecordType>::load(string filename)
     ifstream fin(this->mFileName);
     string temp;
     KeyType key;
-    while (getline(fin, temp);)
+    while (getline(fin, temp))
     {
         RecordType rtemp(temp);
         key = rtemp.getKey();
@@ -89,7 +89,7 @@ template<class KeyType, class RecordType>
 void TextDatabase<KeyType, RecordType>::commit()
 {
     ofstream fout(this->mFileName,"w");
-    map<KeyType, string>::iterator it;
+    typename map<KeyType, string>::iterator it;
     for (it = this->mKeyTextMap.begin(); it != this->mKeyTextMap.end(); it++)
     {
         fout << it->second << endl;
