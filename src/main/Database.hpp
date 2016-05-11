@@ -11,7 +11,7 @@ class Database
 public:
     virtual void load(string fileName);     // check r/w permissions (raise exception on failure) and save the file name
     RecordType* get(KeyType key) const;     // return nullptr if the record does not exist
-    virtual void add(KeyType key, const RecordType& record);    // add the entry to mKeyRecordMap (raise exception for duplicate key)
+    virtual void add(KeyType key, const RecordType& record);   // add the entry to mKeyRecordMap (raise exception for duplicate key)
     virtual void update(KeyType key) = 0;   // stage changes for commit
     virtual void commit() = 0;              // save changes to the database file
 

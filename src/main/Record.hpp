@@ -11,9 +11,11 @@ template <class KeyType>
 class Record
 {
 public:
-    Record(string);
+    Record()=default;
     virtual string toString() const = 0;
     KeyType getKey() const;
+protected:
+    KeyType mKey;
 };
 
 class WordRecord: public Record<string>
@@ -32,7 +34,6 @@ public:
     void setAlgorithmOutput(vector<double>);
 
 private:
-    string mKey;
     string mExplanation;
     string mExample;
     Group mGroup;

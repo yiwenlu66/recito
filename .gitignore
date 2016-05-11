@@ -36,3 +36,12 @@ CMakeScripts
 Makefile
 cmake_install.cmake
 install_manifest.txt
+
+
+# VS
+*.vcxproj*
+Debug/
+Win32/
+*.VC.*
+*.dir/
+*.sln
