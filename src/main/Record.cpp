@@ -9,7 +9,6 @@ KeyType Record<KeyType>::getKey() const
 
 WordRecord::WordRecord(string str)
 {
-
     vector<string> inputs = split(str, '\t');
     mKey = inputs[0];
     mExample = inputs[1];
@@ -38,12 +37,12 @@ WordRecord::WordRecord(string str)
         break;
     }
     vector<string> ans = split(inputs[4], ';');
-    for (int i = 0; i < ans.size(); i++)
+    for (unsigned long i = 0; i < ans.size(); i++)
     {
         mAnswers[i] = ans[i][0] - '0';
     }
     vector<string> Alg = split(inputs[5], ';');
-    for (int i = 0; i < Alg.size(); i++)
+    for (unsigned long i = 0; i < Alg.size(); i++)
     {
         mAlgorithmOutput[i] = atof(Alg[i].c_str());
     }
@@ -53,18 +52,24 @@ string WordRecord::toString() const
 {
     stringstream ss;
     ss << mKey << '\t' << mExample << '\t' << mExplanation << '\t' << char(int(mGroup) + '0') << '\t';
-    for (int i = 0; i < mAnswers.size() - 1; i++)
+    for (unsigned long i = 0; i < mAnswers.size(); ++i)
     {
-        ss << char(mAnswers[i] + '0') << ';';
+        if (i > 0)
+        {
+            ss << ';';
+        }
+        ss << char(mAnswers[i] + '0');
     }
-    ss << char(*mAnswers.end() + '0') << '\t';
-    for (int i = 0; i < mAlgorithmOutput.size() - 1; i++)
+    ss << '\t';
+    for (unsigned long i = 0; i < mAlgorithmOutput.size(); ++i)
     {
-        ss << char(mAlgorithmOutput[i] + '0') << ';';
+        if (i > 0)
+        {
+            ss << ';';
+        }
+        ss << mAlgorithmOutput[i];
     }
-    ss << char(*mAlgorithmOutput.end() + '0') << '\t';
-    string result = ss.str();
-    return result;
+    return ss.str();
 }
 
 string WordRecord::getExample() const

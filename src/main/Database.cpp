@@ -95,10 +95,13 @@ template<class KeyType, class RecordType>
 void TextDatabase<KeyType, RecordType>::commit()
 {
     ofstream fout(this->mFileName, "w");
-    typename map<KeyType, string>::iterator it;
-    for (it = this->mKeyTextMap.begin(); it != this->mKeyTextMap.end(); it++)
+    typename map<KeyType, string>::iterator iter;
+    for (iter = this->mKeyTextMap.begin(); iter != this->mKeyTextMap.end(); ++iter)
     {
-        fout << it->second << endl;
+        if (iter != this->mKeyTextMap.begin()) {
+            fout << endl;
+        }
+        fout << iter->second;
     }
     fout.close();
 }
