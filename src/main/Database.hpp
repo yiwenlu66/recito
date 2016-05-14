@@ -14,6 +14,7 @@ public:
     virtual void add(KeyType key, const RecordType& record);   // add the entry to mKeyRecordMap (raise exception for duplicate key)
     virtual void update(KeyType key) = 0;   // stage changes for commit
     virtual void commit() = 0;              // save changes to the database file
+    virtual ~Database()=default;
 
 protected:
     string mFileName;
@@ -28,6 +29,7 @@ public:
     virtual void add(KeyType key, const RecordType& record);    // use Database::add() and sync to mKeyTextMap
     virtual void update(KeyType key);       // sync changes to the record to mKeyTextMap
     virtual void commit();                  // write mKeyTextMap to mFileName
+    virtual ~TextDatabase();
 private:
     map<KeyType, string> mKeyTextMap;
 };

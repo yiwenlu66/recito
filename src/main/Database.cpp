@@ -102,3 +102,12 @@ void TextDatabase<KeyType, RecordType>::commit()
     }
     fout.close();
 }
+template<class KeyType, class RecordType>
+TextDatabase<KeyType, RecordType>::~TextDatabase()
+{
+    map<KeyType, RecordType*>::iterator it;
+    for (it = this->mKeyRecordMap.begin(); it != this->mKeyRecordMap.end(); it++)
+    {
+        delete it;
+    }
+}

@@ -1,3 +1,2 @@
 #include "ControlFactory.hpp"
 
-// TODO
