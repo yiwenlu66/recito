@@ -14,7 +14,6 @@ public:
     Control(MainLoop*);
     const View& getView() const;
     void showView() const;      // call View::show()
-    void waitForInput() const;  // read input and call View::handleInput(), finally deal with invalid input
     ~Control();
 
 private:

@@ -18,8 +18,7 @@ class View
 public:
     View(const Display*, Control*);
     virtual string toString() const;  // call Fragment::toString() in sequence
-    bool handleInput(string) const;   // call Fragment::handleInput() in sequence
-    void show() const;                // call Display::show()
+    void show() const;                // call Display::show() and getInput()
     ~View();
 
 protected:
@@ -28,6 +27,8 @@ protected:
 private:
     const Display* mDisplay;
     Control* mControl;
+    void getInput() const;            // call Display::getInput() and handleInput(), and deal with invalid input
+    bool handleInput(string) const;   // call Fragment::handleInput() in sequence
 };
 
 // subclasses of View will be declared here
