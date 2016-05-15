@@ -7,8 +7,6 @@
 
 using namespace std;
 
-const double EPS = 1e-6;
-
 TEST_CASE("test for common utilities", "[common]")
 {
     SECTION("test for split")
@@ -69,16 +67,16 @@ TEST_CASE("test for recito_algorithm", "[algorithm]")
         vector<double> intervalCase4 = interval(2.2, 3, 1);
         vector<double> intervalCase5 = interval(2, 4, 6);
 
-        REQUIRE(abs(intervalCase1[0] - 1.7) < EPS);
-        REQUIRE(abs(intervalCase1[1] - 1) < EPS);
-        REQUIRE(abs(intervalCase2[0] - 2.6) < EPS);
-        REQUIRE(abs(intervalCase2[1] - 1) < EPS);
-        REQUIRE(abs(intervalCase3[0] - 1.3) < EPS);
-        REQUIRE(abs(intervalCase3[1] - 1) < EPS);
-        REQUIRE(abs(intervalCase4[0] - 2.06) < EPS);
-        REQUIRE(abs(intervalCase4[1] - 6) < EPS);
-        REQUIRE(abs(intervalCase5[0] - 2) < EPS);
-        REQUIRE(abs(intervalCase5[1] - 12) < EPS);
+        REQUIRE(intervalCase1[0] == Approx(1.7));
+        REQUIRE(intervalCase1[1] == Approx(1));
+        REQUIRE(intervalCase2[0] == Approx(2.6));
+        REQUIRE(intervalCase2[1] == Approx(1));
+        REQUIRE(intervalCase3[0] == Approx(1.3));
+        REQUIRE(intervalCase3[1] == Approx(1));
+        REQUIRE(intervalCase4[0] == Approx(2.06));
+        REQUIRE(intervalCase4[1] == Approx(6));
+        REQUIRE(intervalCase5[0] == Approx(2));
+        REQUIRE(intervalCase5[1] == Approx(12));
     }
 
     SECTION("test for group")
