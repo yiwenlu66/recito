@@ -12,3 +12,20 @@ vector<string> split(string s, char delimiter)
     }
     return elems;
 }
+
+string escape(string str, char toEscape, char substitute)
+{
+    string newString;
+    for (char c: str)
+    {
+        if (c != toEscape)
+        {
+            newString += c;
+        }
+        else if (substitute)
+        {
+            newString += substitute;
+        }
+    }
+    return newString;
+}

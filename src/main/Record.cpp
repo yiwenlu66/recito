@@ -51,7 +51,8 @@ WordRecord::WordRecord(const string& str)
 string WordRecord::toString() const
 {
     stringstream ss;
-    ss << mKey << '\t' << mExample << '\t' << mExplanation << '\t' << char(int(mGroup) + '0') << '\t';
+    ss << escape(mKey, '\t', ' ') << '\t' << escape(mExample, '\t', ' ') << '\t'
+        << escape(mExplanation, '\t', ' ') << '\t' << char(int(mGroup) + '0') << '\t';
     for (unsigned long i = 0; i < mAnswers.size(); ++i)
     {
         if (i > 0)

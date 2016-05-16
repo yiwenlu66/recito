@@ -16,6 +16,12 @@ TEST_CASE("test for common utilities", "[common]")
         REQUIRE(split("Lorem ipsum dolor sit amet", ' ') == vector<string>({"Lorem", "ipsum", "dolor", "sit", "amet"}));
         REQUIRE(split("Lorem\tipsum\tdolor\tsit\tamet", '\t') == vector<string>({"Lorem", "ipsum", "dolor", "sit", "amet"}));
     }
+
+    SECTION("test for escape")
+    {
+        REQUIRE(escape("Lorem\tipsum\tdolor\tsit\tamet", '\t') == "Loremipsumdolorsitamet");
+        REQUIRE(escape("Lorem\tipsum\tdolor\tsit\tamet", '\t', ' ') == "Lorem ipsum dolor sit amet");
+    }
 }
 
 TEST_CASE("test for CommandLineParser", "[command]")
@@ -164,6 +170,8 @@ TEST_CASE("test for Database and Record", "[database]")
         word1->setGroup(Group::MATURE);
         word1->setAlgorithmOutput(vector<double>({6.66, 66.66}));
         word1->addAnswer(2);
+        REQUIRE(word1->toString() == "word1\tnew example 1\texplanation1\t3\t0;1;2;0;2\t6.66;66.66");
+        word1->setExample("new\texample\t1");
         REQUIRE(word1->toString() == "word1\tnew example 1\texplanation1\t3\t0;1;2;0;2\t6.66;66.66");
         db.update(word1->getKey());
 
