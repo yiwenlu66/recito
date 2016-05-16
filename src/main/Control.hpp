@@ -6,6 +6,10 @@
 #include "MainLoop.hpp"
 #include <string>
 
+
+#include"../common.hpp"
+#include"../algorithm/recito_algorithm.hpp"
+#include<fstream>
 using namespace std;
 
 class View;
@@ -17,55 +21,65 @@ public:
     Control(MainLoop*);
     const View& getView() const;
     void showView() const;      // call View::show()
+    void changeControl(ControlClass);
+    void setView(ViewClass);    // delete old view and construct new view using ViewFactory
     ~Control();
 
-private:
+protected:
     const View* mView;
     MainLoop* mMainControl;
-    void setView(ViewClass);    // delete old view and construct new view using ViewFactory
+    
 };
 //All the Handle function return true when the input can be handled;
 class Main_MenuControl :public Control
 {
 public:
     Main_MenuControl(MainLoop *mainloop):Control(mainloop){ }
-    bool HandleMode(string);
+
+
 
 };
 class MemoryControl :public Control
 {
 public:
     MemoryControl(MainLoop *mainloop) :Control(mainloop) { }
-    bool HandleCategory(string);
-    bool HandleAnswer(string);//when you answer if you know a word
-    bool HandleChoose(string);
-    bool HandleReturn(string);
+    void chooseGroup(Group);
+    void iterateWord();
+    void dealwithReply();
+    void addExample(string);
+private:
+    WordIterator* mWordIterator;
+    string mNowword;
+
 };
 class DictControl :public Control
 {
 public:
     DictControl(MainLoop *mainloop) :Control(mainloop) { }
-    bool  HandleMode(string);
-    bool  HandleWord(string);
-    bool  HandleHistory(string);
-    bool  HandleNext(string);
+    void findWord(string);
+private:
+    string mNowword;
 };
 class ExamControl :public Control
 {
 public:
     ExamControl(MainLoop *mainloop) :Control(mainloop) { }
-    bool HandleCategory(string);
-    bool HandleSum(string);
-    bool HandleWord(string);
-    bool HandleReturn(string);
+    void chooseGroup(Group);
+    void setTestNumber(int);
+    void iteratorTestWord();
+private:
+    WordIterator* mWordIterator;
+    string mNowword;
+   
 };
 class TextControl :public Control
 {
 public:
     TextControl(MainLoop *mainloop) :Control(mainloop) { }
-    bool HandleFilename(string);
-    bool HandleSuccess(string);
-    bool HandleFail(string);
+    void openFile(string filename);//openfile and load;
+    void giveWord();
+private:
+    string mstring;
 };
 
 // subclasses of Control will be declared here

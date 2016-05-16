@@ -33,3 +33,12 @@ void Control::showView()const
     //mView->show();
 }
 
+MemoryControl::~MemoryControl()
+{
+    delete mWordIterator;
+}
+ExamControl::~ExamControl()
+{
+    delete mWordIterator;
+}
+
