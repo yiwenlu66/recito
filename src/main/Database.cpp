@@ -26,7 +26,7 @@ void Database<KeyType, RecordType>::load(string fileName)
 }
 
 template<class KeyType, class RecordType>
-RecordType* Database<KeyType, RecordType>::get(KeyType key) const
+RecordType* Database<KeyType, RecordType>::get(KeyType key)
 {
     typename map<KeyType, RecordType*>::iterator iter;
     iter = mKeyRecordMap.find(key);
@@ -41,7 +41,7 @@ RecordType* Database<KeyType, RecordType>::get(KeyType key) const
 }
 
 template<class KeyType, class RecordType>
-void Database<KeyType, RecordType>::add(KeyType key, const RecordType&record)
+void Database<KeyType, RecordType>::add(KeyType key, RecordType* record)
 {
     if (get(key))
     {
@@ -72,16 +72,16 @@ void TextDatabase<KeyType, RecordType>::load(string filename)
 }
 
 template<class KeyType, class RecordType>
-void TextDatabase<KeyType, RecordType>::add(KeyType key, const RecordType& record)
+void TextDatabase<KeyType, RecordType>::add(KeyType key, RecordType* record)
 {
     Database<KeyType, RecordType>::add(key, record);
-    this->mKeyTextMap[key] = record.toString();
+    this->mKeyTextMap[key] = record->toString();
 }
 
 template<class KeyType, class RecordType>
 void TextDatabase<KeyType, RecordType>::update(KeyType key)
 {
-    if (get(key))
+    if (this->get(key))
     {
         this->mKeyTextMap[key] = this->mKeyRecordMap[key]->toString();
     }
@@ -94,7 +94,7 @@ void TextDatabase<KeyType, RecordType>::update(KeyType key)
 template<class KeyType, class RecordType>
 void TextDatabase<KeyType, RecordType>::commit()
 {
-    ofstream fout(this->mFileName, "w");
+    ofstream fout(this->mFileName, ios::out);
     typename map<KeyType, string>::iterator iter;
     for (iter = this->mKeyTextMap.begin(); iter != this->mKeyTextMap.end(); ++iter)
     {
@@ -105,12 +105,16 @@ void TextDatabase<KeyType, RecordType>::commit()
     }
     fout.close();
 }
+
 template<class KeyType, class RecordType>
 TextDatabase<KeyType, RecordType>::~TextDatabase()
 {
-    map<KeyType, RecordType*>::iterator it;
-    for (it = this->mKeyRecordMap.begin(); it != this->mKeyRecordMap.end(); it++)
+    typename map<KeyType, RecordType*>::iterator it;
+    for (auto item: this->mKeyRecordMap)
     {
-        delete it;
+        // uncomment after Record::~Record() is implemented
+        //delete item.second;
     }
 }
+
+template class TextDatabase<string, WordRecord>;

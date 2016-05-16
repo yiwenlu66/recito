@@ -1,12 +1,15 @@
 #include "Control.hpp"
-#include"ViewFactory.hpp"
+#include "ViewFactory.hpp"
+#include "View.hpp"
+
 Control::Control(MainLoop*mainloop)
 {
     mainloop = this->mMainControl;
 }
 Control::~Control()
 {
-    delete mView;
+    // uncomment after View::~View() is implemented
+    // delete mView;
 }
 const View&Control::getView()const
 {
@@ -14,13 +17,19 @@ const View&Control::getView()const
 }
 void Control::setView(ViewClass viewclass)
 {
-    delete mView;
-    ViewFactory fa(this, mMainControl->getDisplay);
-    mView=fa.make(viewclass);
+    // uncomment after View::~View() is implemented
+    // delete mView;
+
+    // uncomment after MainControl::getDisplay() is implemented
+    //ViewFactory fa(this, mMainControl->getDisplay());
+
+    // uncomment after ViewFactory::make() is implemented
+    //mView=fa.make(viewclass);
 
 }
 void Control::showView()const
 {
-    mView->show();
+    // uncomment after View::show() is implemented
+    //mView->show();
 }
 

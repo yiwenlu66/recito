@@ -126,3 +126,5 @@ string HistoryRecord::toString() const
 {
     return mKey;
 }
+
+template class Record<string>;

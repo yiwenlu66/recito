@@ -25,7 +25,7 @@ Control* ControlFactory::make(ControlClass controlclass)
         temp = new TextControl(mMainLoop);
         break;
     case ControlClass::QUIT:
-        temp = new QuitControl(mMainLoop);
+        // temp = new QuitControl(mMainLoop);
         break;
     default:
         break;

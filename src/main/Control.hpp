@@ -4,6 +4,9 @@
 #include "ViewClass.hpp"
 #include "View.hpp"
 #include "MainLoop.hpp"
+#include <string>
+
+using namespace std;
 
 class View;
 class MainLoop;
