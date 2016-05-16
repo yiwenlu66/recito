@@ -7,7 +7,7 @@ KeyType Record<KeyType>::getKey() const
     return mKey;
 }
 
-WordRecord::WordRecord(string str)
+WordRecord::WordRecord(const string& str)
 {
     vector<string> inputs = split(str, '\t');
     mKey = inputs[0];
@@ -39,12 +39,12 @@ WordRecord::WordRecord(string str)
     vector<string> ans = split(inputs[4], ';');
     for (unsigned long i = 0; i < ans.size(); i++)
     {
-        mAnswers[i] = ans[i][0] - '0';
+        mAnswers.push_back(ans[i][0] - '0');
     }
     vector<string> Alg = split(inputs[5], ';');
     for (unsigned long i = 0; i < Alg.size(); i++)
     {
-        mAlgorithmOutput[i] = atof(Alg[i].c_str());
+        mAlgorithmOutput.push_back(atof(Alg[i].c_str()));
     }
 }
 

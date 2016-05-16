@@ -3,6 +3,8 @@
 #include "../src/algorithm/recito_algorithm.hpp"
 #include "../src/common.hpp"
 #include "../src/main/CommandLineParser.hpp"
+#include "../src/main/Database.hpp"
+#include "../src/main/Record.hpp"
 #include <cmath>
 
 using namespace std;
@@ -126,5 +128,46 @@ TEST_CASE("test for recito_algorithm", "[algorithm]")
         wordIterator.add(word4);
         REQUIRE(wordIterator.next() == "word4");
         REQUIRE(wordIterator.next() == "");
+    }
+
+}
+
+TEST_CASE("test for Database and Record", "[database]")
+{
+
+    TextDatabase<string, WordRecord> db;
+    db.load("test/dict_test.txt");
+    WordRecord* word1 = db.get("word1");
+    WordRecord* word2 = db.get("word2");
+    WordRecord* word_nonexist = db.get("word3");
+
+    SECTION("test read")
+    {
+        REQUIRE(word1->getKey() == "word1");
+        REQUIRE(word1->getExample() == "example1");
+        REQUIRE(word1->getExplanation() == "explanation1");
+        REQUIRE(word1->getGroup() == Group::RELEARN);
+        REQUIRE(word1->getAnswers() == vector<int>({0, 1, 2, 0}));
+        REQUIRE(word1->getAlgorithmOutput()[0] == Approx(1.2));
+        REQUIRE(word1->getAlgorithmOutput()[1] == Approx(2.5));
+        REQUIRE(word2->getKey() == "word2");
+        REQUIRE(word2->getExample() == "example2");
+        REQUIRE(word2->getExplanation() == "explanation2");
+        REQUIRE(word2->getGroup() == Group::MATURE);
+        REQUIRE(word2->getAnswers() == vector<int>({0, 2, 2, 2, 2}));
+        REQUIRE(word2->getAlgorithmOutput()[0] == Approx(2));
+        REQUIRE(word2->getAlgorithmOutput()[1] == Approx(5));
+    }
+
+    SECTION("test update") {
+        word1->setExample("new example 1");
+        word1->setGroup(Group::MATURE);
+        word1->setAlgorithmOutput(vector<double>({6.66, 66.66}));
+        word1->addAnswer(2);
+        REQUIRE(word1->toString() == "word1\tnew example 1\texplanation1\t3\t0;1;2;0;2\t6.66;66.66");
+        db.update(word1->getKey());
+
+        // WARNING: this will change the original test file
+        // db.commit();
     }
 }

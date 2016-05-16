@@ -21,7 +21,7 @@ protected:
 class WordRecord: public Record<string>
 {
 public:
-    WordRecord(string);
+    WordRecord(const string&);
     virtual string toString() const;
     string getExplanation() const;
     string getExample() const;

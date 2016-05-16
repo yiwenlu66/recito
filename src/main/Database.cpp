@@ -59,14 +59,14 @@ void TextDatabase<KeyType, RecordType>::load(string filename)
 {
     Database<KeyType, RecordType>::load(filename);
     ifstream fin(this->mFileName);
-    string temp;
+    string line;
     KeyType key;
-    while (getline(fin, temp))
+    while (getline(fin, line))
     {
-        RecordType rtemp(temp);
-        key = rtemp.getKey();
-        this->mKeyTextMap[key] = temp;
-        this->mKeyRecordMap[key] = new RecordType(temp);
+        RecordType* record = new RecordType(line);
+        key = record->getKey();
+        this->mKeyTextMap[key] = line;
+        this->mKeyRecordMap[key] = record;
     }
     fin.close();
 }
