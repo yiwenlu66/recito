@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include <stdexcept>
 
 using namespace std;
 
@@ -19,9 +20,21 @@ void Database<KeyType, RecordType>::load(string fileName)
     }
     else
     {
-        cout << "fail in open files" << endl;
         fin.close();
-        exit(1);
+        throw * (new runtime_error("Failed to open file for reading!"));
+    }
+
+    ofstream fout;
+    fout.open(fileName, ios::app);
+    if (fout.is_open())
+    {
+        mFileName = fileName;
+        fout.close();
+    }
+    else
+    {
+        fout.close();
+        throw * (new runtime_error("Failed to open file for writing!"));
     }
 }
 
@@ -45,8 +58,7 @@ void Database<KeyType, RecordType>::add(KeyType key, RecordType* record)
 {
     if (get(key))
     {
-        cout << "duplicate key" << endl;
-        exit(1);
+        throw * (new runtime_error("Duplicate key!"));
     }
     else
     {
@@ -61,12 +73,20 @@ void TextDatabase<KeyType, RecordType>::load(string filename)
     ifstream fin(this->mFileName);
     string line;
     KeyType key;
+    int lineNumber = 1;
     while (getline(fin, line))
     {
-        RecordType* record = new RecordType(line);
-        key = record->getKey();
-        this->mKeyTextMap[key] = line;
-        this->mKeyRecordMap[key] = record;
+        try
+        {
+            RecordType* record = new RecordType(line);
+            key = record->getKey();
+            add(key, record);
+            ++lineNumber;
+        }
+        catch (const runtime_error& e)
+        {
+            throw * (new runtime_error("Broken record on line " + to_string(lineNumber) + "!"));
+        }
     }
     fin.close();
 }
@@ -75,7 +95,7 @@ template<class KeyType, class RecordType>
 void TextDatabase<KeyType, RecordType>::add(KeyType key, RecordType* record)
 {
     Database<KeyType, RecordType>::add(key, record);
-    this->mKeyTextMap[key] = record->toString();
+    mKeyTextMap[key] = record->toString();
 }
 
 template<class KeyType, class RecordType>
@@ -87,7 +107,7 @@ void TextDatabase<KeyType, RecordType>::update(KeyType key)
     }
     else
     {
-        cout << "no such input" << endl;
+        throw * (new runtime_error("Attempt to update a non-existing key!"));
     }
 }
 
@@ -98,7 +118,8 @@ void TextDatabase<KeyType, RecordType>::commit()
     typename map<KeyType, string>::iterator iter;
     for (iter = this->mKeyTextMap.begin(); iter != this->mKeyTextMap.end(); ++iter)
     {
-        if (iter != this->mKeyTextMap.begin()) {
+        if (iter != this->mKeyTextMap.begin())
+        {
             fout << endl;
         }
         fout << iter->second;
@@ -110,7 +131,7 @@ template<class KeyType, class RecordType>
 TextDatabase<KeyType, RecordType>::~TextDatabase()
 {
     typename map<KeyType, RecordType*>::iterator it;
-    for (auto item: this->mKeyRecordMap)
+    for (auto item : this->mKeyRecordMap)
     {
         // uncomment after Record::~Record() is implemented
         //delete item.second;

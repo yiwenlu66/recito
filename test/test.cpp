@@ -163,9 +163,11 @@ TEST_CASE("test for Database and Record", "[database]")
         REQUIRE(word2->getAnswers() == vector<int>({0, 2, 2, 2, 2}));
         REQUIRE(word2->getAlgorithmOutput()[0] == Approx(2));
         REQUIRE(word2->getAlgorithmOutput()[1] == Approx(5));
+        REQUIRE(word_nonexist == nullptr);
     }
 
-    SECTION("test update") {
+    SECTION("test update")
+    {
         word1->setExample("new example 1");
         word1->setGroup(Group::MATURE);
         word1->setAlgorithmOutput(vector<double>({6.66, 66.66}));
@@ -177,5 +179,22 @@ TEST_CASE("test for Database and Record", "[database]")
 
         // WARNING: this will change the original test file
         // db.commit();
+    }
+
+    SECTION("test exceptions for Database")
+    {
+        TextDatabase<string, WordRecord> db1;
+        REQUIRE_THROWS(db1.load("test/dict_test_nonexist.txt"));
+        REQUIRE_THROWS(db1.load("test/dict_test_duplicate.txt"));
+        REQUIRE_THROWS(db1.load("test/dict_test_broken.txt"));
+        REQUIRE_THROWS(db.update("nonexist"));
+    }
+
+    SECTION("test exceptions for Record")
+    {
+        REQUIRE_THROWS(new WordRecord("word1\tnew example 1\texplanation1\t3\t0;1;2;0;2"));
+        REQUIRE_THROWS(new WordRecord("word1\tnew example 1\texplanation1\t7\t0;1;2;0;2\t1;1"));
+        REQUIRE_THROWS(new WordRecord("word1\tnew example 1\texplanation1\t7\t0,1,2,0,2\t1;1"));
+        REQUIRE_THROWS(new WordRecord("word1\tnew example 1\texplanation1\t7\t0;1;2;0;2\t1,1"));
     }
 }

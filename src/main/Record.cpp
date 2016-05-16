@@ -1,5 +1,8 @@
 #include "Record.hpp"
 #include <sstream>
+#include <stdexcept>
+#include <cstdlib>
+#include <cerrno>
 
 template<class KeyType>
 KeyType Record<KeyType>::getKey() const
@@ -10,6 +13,10 @@ KeyType Record<KeyType>::getKey() const
 WordRecord::WordRecord(const string& str)
 {
     vector<string> inputs = split(str, '\t');
+    if (inputs.size() != 6)
+    {
+        throw * (new runtime_error("Broken record!"));
+    }
     mKey = inputs[0];
     mExample = inputs[1];
     mExplanation = inputs[2];
@@ -34,17 +41,30 @@ WordRecord::WordRecord(const string& str)
         mGroup = Group::SUSPENDED;
         break;
     default:
-        break;
+        throw * (new runtime_error("Broken record!"));
     }
+
+    char* e;
     vector<string> ans = split(inputs[4], ';');
     for (unsigned long i = 0; i < ans.size(); i++)
     {
-        mAnswers.push_back(ans[i][0] - '0');
+        errno = 0;
+        mAnswers.push_back(strtol(ans[i].c_str(), &e, 10));
+        if (*e != '\0' || errno != 0)
+        {
+            throw * (new runtime_error("Broken record!"));
+        }
     }
-    vector<string> Alg = split(inputs[5], ';');
-    for (unsigned long i = 0; i < Alg.size(); i++)
+
+    vector<string> alg = split(inputs[5], ';');
+    for (unsigned long i = 0; i < alg.size(); i++)
     {
-        mAlgorithmOutput.push_back(atof(Alg[i].c_str()));
+        errno = 0;
+        mAlgorithmOutput.push_back(strtod(alg[i].c_str(), &e));
+        if (*e != '\0' || errno != 0)
+        {
+            throw * (new runtime_error("Broken record!"));
+        }
     }
 }
 
@@ -52,7 +72,7 @@ string WordRecord::toString() const
 {
     stringstream ss;
     ss << escape(mKey, '\t', ' ') << '\t' << escape(mExample, '\t', ' ') << '\t'
-        << escape(mExplanation, '\t', ' ') << '\t' << char(int(mGroup) + '0') << '\t';
+       << escape(mExplanation, '\t', ' ') << '\t' << char(int(mGroup) + '0') << '\t';
     for (unsigned long i = 0; i < mAnswers.size(); ++i)
     {
         if (i > 0)
