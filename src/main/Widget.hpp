@@ -13,6 +13,7 @@ class Widget
 public:
     virtual bool handleInput(string input, Control* control) const; // return true if the input is handled; do nothing by default
     virtual string toString() const;
+    virtual ~Widget() = default;
 };
 
 class Label: public Widget
@@ -20,23 +21,37 @@ class Label: public Widget
 public:
     Label(string);
     virtual string toString() const;
+    virtual ~Label() = default;
 
 private:
     string mText;
 };
 
-class Input: public Widget
+class TextInput: public Widget
 {
 public:
-    Input(string key, string hintText);
+    TextInput(string hintText);
     virtual string toString() const;
     virtual bool handleInput(string input, Control* control) const;
+    virtual ~TextInput() = default;
+
+private:
+    string mHintText;
+};
+
+class Option: public Widget
+{
+public:
+    Option(string key, string hintText);
+    virtual string toString() const;
+    virtual bool handleInput(string input, Control* control) const;
+    virtual ~Option() = default;
 
 protected:
     string mKey;
     string mHintText;
 };
 
-// subclasses of Input will be declared here
+// subclasses of Option will be declared here
 
 #endif

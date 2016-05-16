@@ -19,7 +19,7 @@ public:
     View(const Display*, Control*);
     virtual string toString() const;  // call Fragment::toString() in sequence
     void show() const;                // call Display::show() and getInput()
-    ~View();
+    virtual ~View();
 
 protected:
     vector<Fragment*> mFragments;

@@ -14,9 +14,9 @@ class Widget;
 class Fragment
 {
 public:
-    string toString() const;        // call Widget::toString() in sequence
-    bool handleInput(string, Control) const;    // call Widget::handleInput() in sequence
-    ~Fragment();                    // delete all widgets in mWidgets
+    string toString() const;                     // call Widget::toString() in sequence
+    bool handleInput(string, Control*) const;    // call Widget::handleInput() in sequence
+    virtual ~Fragment();                         // delete all widgets in mWidgets
 
 protected:
     vector<Widget*> mWidgets;
