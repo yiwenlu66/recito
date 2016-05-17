@@ -1,35 +1,25 @@
 #include "ControlFactory.hpp"
-ControlFactory::ControlFactory(MainLoop*mainloop)
+
+ControlFactory::ControlFactory(MainLoop* mainloop)
+    : mMainLoop(mainloop)
 {
-    mMainLoop = mainloop;
 }
 
 Control* ControlFactory::make(ControlClass controlclass)
 {
-    Control * temp;
     switch (controlclass)
     {
     case ControlClass::MAIN_MENU:
-        temp = new Main_MenuControl(mMainLoop);
-        break;
+        return new MainMenuControl(mMainLoop);
     case ControlClass::MEMORY:
-        temp = new MemoryControl(mMainLoop);
-        break;
+        return new MemoryControl(mMainLoop);
     case ControlClass::DICT:
-        temp = new DictControl(mMainLoop);
-        break;
+        return new DictControl(mMainLoop);
     case ControlClass::EXAM:
-        temp = new ExamControl(mMainLoop);
-        break;
+        return new ExamControl(mMainLoop);
     case ControlClass::TEXT:
-        temp = new TextControl(mMainLoop);
-        break;
+        return new TextControl(mMainLoop);
     case ControlClass::QUIT:
-        // temp = new QuitControl(mMainLoop);
-        break;
-    default:
-        break;
+        exit(0);
     }
 }
-
-
