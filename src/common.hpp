@@ -13,7 +13,8 @@ enum class Group
     YOUNG,
     MATURE,
     RELEARN,
-    SUSPENDED
+    SUSPENDED,
+    ALL     // intended for category chooser only
 };
 
 vector<string> split(string s, char delimiter);
