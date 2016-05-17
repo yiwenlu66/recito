@@ -23,6 +23,7 @@ public:
     void showView() const;      // call View::show()
     void changeControl(ControlClass);
     void setView(ViewClass);    // delete old view and construct new view using ViewFactory
+    virtual void handleString(string) = 0;
     ~Control();
 
 protected:
@@ -45,20 +46,28 @@ public:
     MemoryControl(MainLoop *mainloop) :Control(mainloop) { }
     void chooseGroup(Group);
     void iterateWord();
-    void dealwithReply();
-    void addExample(string);
+    void dealwithReply(int);//0,1,2,3
+    void handleString(string);
 private:
     WordIterator* mWordIterator;
     string mNowword;
+    void editWord(string);
 
 };
 class DictControl :public Control
 {
 public:
     DictControl(MainLoop *mainloop) :Control(mainloop) { }
-    void findWord(string);
+    void handleString(string);
+    void loadHistory();
+    void showNextHistory();
+    void showPreviousHistory();
 private:
     string mNowword;
+    vector<string> mHistorywords;//all history words;
+    void editWord(string);
+    void findWord(string);
+
 };
 class ExamControl :public Control
 {
@@ -76,10 +85,12 @@ class TextControl :public Control
 {
 public:
     TextControl(MainLoop *mainloop) :Control(mainloop) { }
-    void openFile(string filename);//openfile and load;
+    void handleString(string);
     void giveWord();
 private:
-    string mstring;
+    string mFilestring;
+    string mNowword;
+    void openFile(string);
 };
 
 // subclasses of Control will be declared here
