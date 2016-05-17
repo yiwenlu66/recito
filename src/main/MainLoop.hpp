@@ -4,6 +4,8 @@
 #include "Display.hpp"
 #include "Control.hpp"
 #include "ControlClass.hpp"
+#include "Database.hpp"
+#include "Record.hpp"
 
 class Display;
 class Control;
@@ -17,6 +19,8 @@ public:
     const Display* getDisplay() const;
     const Control* getControl() const;
     void setControl(ControlClass);  // delete old control and construct new control using ControlFactory
+    Database<string, WordRecord>* getMainDatabase();
+    Database<string, HistoryRecord>* getHistoryDatabase();
     ~MainLoop();
 
 private:
