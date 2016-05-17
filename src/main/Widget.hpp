@@ -42,7 +42,10 @@ class MaxNumberInput: public TextInput
 {
 public:
     MaxNumberInput(string hintText, int maxNum);
-    // TODO
+    virtual bool handleInput(string input, Control* control) const;
+
+private:
+    int mMaxNum;
 };
 
 class Option: public Widget
@@ -55,13 +58,16 @@ public:
 protected:
     string mKey;
     string mHintText;
+    virtual void callControl(Control*) const;
 };
 
 class ChooseModeOption: public Option
 {
 public:
     ChooseModeOption(string key, string hintText, ControlClass controlClass);
-    // TODO
+
+protected:
+    virtual void callControl(Control*) const;
 
 private:
     ControlClass mControlClass;
@@ -71,7 +77,9 @@ class ChooseCategoryOption: public Option
 {
 public:
     ChooseCategoryOption(string key, string hintText, Group group);
-    // TODO
+
+protected:
+    virtual void callControl(Control*) const;
 
 private:
     Group mGroup;
@@ -81,21 +89,27 @@ class ShowAnswerOption: public Option
 {
 public:
     ShowAnswerOption(string key = "a", string hintText = "show answer");
-    // TODO
+
+protected:
+    virtual void callControl(Control*) const;
 };
 
 class BackToMainMenuOption: public Option
 {
 public:
     BackToMainMenuOption(string key = "m", string hintText = "back to main menu");
-    // TODO
+
+protected:
+    virtual void callControl(Control*) const;
 };
 
 class EditExampleOption: public Option
 {
 public:
     EditExampleOption(string key = "e", string hintText = "edit example");
-    // TODO
+
+protected:
+    virtual void callControl(Control*) const;
 };
 
 class ReviewAnswerOption: public Option
@@ -103,31 +117,43 @@ class ReviewAnswerOption: public Option
 public:
     ReviewAnswerOption(int ans);
     ReviewAnswerOption(int ans, string hintText);
-    // TODO
+
+protected:
+    virtual void callControl(Control*) const;
 
 private:
     static string getDefaultHintText(int ans);
+    int mAnswer;
 };
 
 class DictInputWordOption: public Option
 {
 public:
     DictInputWordOption(string key = "i", string hintText = "input a word");
-    // TODO
+
+protected:
+    virtual void callControl(Control*) const;
 };
 
 class DictShowHistoryOption: public Option
 {
 public:
     DictShowHistoryOption(string key = "h", string hintText = "show history");
-    // TODO
+
+protected:
+    virtual void callControl(Control*) const;
 };
 
 class HistoryWordOption: public Option
 {
 public:
     HistoryWordOption(int seq, string word);
-    // TODO
+
+protected:
+    virtual void callControl(Control*) const;
+
+private:
+    int mSeq;
 };
 
 class PagerOption: public Option
@@ -135,7 +161,9 @@ class PagerOption: public Option
 public:
     PagerOption(int direction);                                 // -1 for previous page, 1 for next page
     PagerOption(int direction, string key, string hintText);
-    // TODO
+
+protected:
+    virtual void callControl(Control*) const;
 
 private:
     int mDirection;
@@ -147,28 +175,36 @@ class GoToDictMenuOption: public Option
 {
 public:
     GoToDictMenuOption(string key = "n", string hintText = "look up another word");
-    // TODO
+
+protected:
+    virtual void callControl(Control*) const;
 };
 
 class ExamChoiceOption: public Option
 {
 public:
     using Option::Option;
-    // TODO
+
+protected:
+    virtual void callControl(Control*) const;
 };
 
 class ExamContinueOption: public Option
 {
 public:
     ExamContinueOption(string key = "c", string hintText = "continue");
-    // TODO
+
+protected:
+    virtual void callControl(Control*) const;
 };
 
 class ReEnterFileNameOption: public Option
 {
 public:
     ReEnterFileNameOption(string key = "r", string hintText = "re-enter the file name");
-    // TODO
+
+protected:
+    virtual void callControl(Control*) const;
 };
 
 #endif

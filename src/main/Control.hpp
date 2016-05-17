@@ -1,15 +1,14 @@
 #ifndef CONTROL_HPP
 #define CONTROL_HPP
 
+#include <string>
+#include<fstream>
 #include "ViewClass.hpp"
 #include "View.hpp"
 #include "MainLoop.hpp"
-#include <string>
-
-
 #include"../common.hpp"
 #include"../algorithm/recito_algorithm.hpp"
-#include<fstream>
+
 using namespace std;
 
 class View;
@@ -21,78 +20,112 @@ public:
     Control(MainLoop*);
     const View& getView() const;
     void showView() const;      // call View::show()
-    void changeControl(ControlClass);
-    void setView(ViewClass);    // delete old view and construct new view using ViewFactory
-    virtual void handleString(string) = 0;
-    ~Control();
+    virtual void backToMainMenu();
+    virtual ~Control();
 
 protected:
     const View* mView;
-    MainLoop* mMainControl;
-    
+    void setView(ViewClass);    // delete old view and construct new view using ViewFactory
+    MainLoop* mMainLoop;
 };
-//All the Handle function return true when the input can be handled;
-class Main_MenuControl :public Control
+
+class ChooseGroupInterface
 {
 public:
-    Main_MenuControl(MainLoop *mainloop):Control(mainloop){ }
-
-
-
+    virtual void chooseGroup(Group) = 0;
 };
-class MemoryControl :public Control
+
+class EditExampleInterface
 {
 public:
-    MemoryControl(MainLoop *mainloop) :Control(mainloop) { }
-    void chooseGroup(Group);
-    void iterateWord();
-    void dealwithReply(int);//0,1,2,3
-    void handleString(string);
+    virtual void editExample() = 0;
+};
+
+class PagerInterface
+{
+public:
+    virtual void previousPage() = 0;
+    virtual void nextPage() = 0;
+};
+
+class StringHandlerInterface
+{
+public:
+    virtual void handleString(string) = 0;
+};
+
+class MainMenuControl: public Control
+{
+public:
+    MainMenuControl(MainLoop *mainloop): Control(mainloop) { }
+    void setControlClass(ControlClass);
+};
+
+class MemoryControl: public Control, public ChooseGroupInterface, public EditExampleInterface,
+    public StringHandlerInterface
+{
+public:
+    MemoryControl(MainLoop *mainloop) : Control(mainloop) { }
+    virtual void chooseGroup(Group);
+    virtual void editExample();
+    virtual void handleString(string);
+    void addAnswer(int);    //0,1,2,3
+    void showAnswer();
+    virtual ~MemoryControl();
+
 private:
     WordIterator* mWordIterator;
-    string mNowword;
-    void editWord(string);
-
+    string mCurrentWord;
 };
-class DictControl :public Control
+
+class DictControl: public Control, public EditExampleInterface, public PagerInterface,
+    public StringHandlerInterface
 {
 public:
-    DictControl(MainLoop *mainloop) :Control(mainloop) { }
-    void handleString(string);
-    void loadHistory();
-    void showNextHistory();
-    void showPreviousHistory();
+    DictControl(MainLoop *mainloop) : Control(mainloop) { }
+    virtual void editExample();
+    virtual void previousPage();
+    virtual void nextPage();
+    virtual void handleString(string);
+    void inputWord();               // redirect to DICT_INPUT view
+    void showHistory();             // redirect to DICT_HISTORY view
+    void goToHistoryWord(int i);    // go to the i-th word on the current page
+    void goToDictMenu();
+
 private:
-    string mNowword;
-    vector<string> mHistorywords;//all history words;
-    void editWord(string);
-    void findWord(string);
-
+    string mCurrentWord;
+    vector<string> mHistoryWords;   //all history words
 };
-class ExamControl :public Control
+
+class ExamControl: public Control, public ChooseGroupInterface
 {
 public:
-    ExamControl(MainLoop *mainloop) :Control(mainloop) { }
-    void chooseGroup(Group);
+    ExamControl(MainLoop *mainloop) : Control(mainloop) { }
+    virtual void chooseGroup(Group);
     void setTestNumber(int);
-    void iteratorTestWord();
+    void continueExam();
+    virtual ~ExamControl();
+
 private:
     WordIterator* mWordIterator;
-    string mNowword;
-   
+    string mCurrentWord;
 };
-class TextControl :public Control
+
+class TextControl: public Control, public EditExampleInterface, public PagerInterface,
+    public StringHandlerInterface
 {
 public:
-    TextControl(MainLoop *mainloop) :Control(mainloop) { }
-    void handleString(string);
-    void giveWord();
+    TextControl(MainLoop *mainloop) : Control(mainloop) { }
+    virtual void editExample();
+    virtual void previousPage();
+    virtual void nextPage();
+    virtual void handleString(string);
+    void reEnterFileName();
+
 private:
-    string mFilestring;
-    string mNowword;
+    string mFileName;
+    string mNowWord;
     void openFile(string);
 };
-
-// subclasses of Control will be declared here
 
 #endif

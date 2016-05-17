@@ -2,43 +2,39 @@
 #include "ViewFactory.hpp"
 #include "View.hpp"
 
-Control::Control(MainLoop*mainloop)
+Control::Control(MainLoop* mainloop)
+    : mMainLoop(mainloop)
 {
-    mainloop = this->mMainControl;
 }
+
 Control::~Control()
 {
-    // uncomment after View::~View() is implemented
-    // delete mView;
+    delete mView;
 }
-const View&Control::getView()const
+
+const View& Control::getView() const
 {
     return *mView;
 }
-void Control::setView(ViewClass viewclass)
+
+void Control::setView(ViewClass viewClass)
 {
-    // uncomment after View::~View() is implemented
-    // delete mView;
-
-    // uncomment after MainControl::getDisplay() is implemented
-    //ViewFactory fa(this, mMainControl->getDisplay());
-
-    // uncomment after ViewFactory::make() is implemented
-    //mView=fa.make(viewclass);
-
+    delete mView;
+    ViewFactory viewFactory(this, mMainLoop->getDisplay());
+    mView = viewFactory.make(viewClass);
 }
-void Control::showView()const
+
+void Control::showView() const
 {
-    // uncomment after View::show() is implemented
-    //mView->show();
+    mView->show();
 }
 
 MemoryControl::~MemoryControl()
 {
     delete mWordIterator;
 }
+
 ExamControl::~ExamControl()
 {
     delete mWordIterator;
 }
-
