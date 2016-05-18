@@ -67,6 +67,12 @@ void Database<KeyType, RecordType>::add(KeyType key, RecordType* record)
 }
 
 template<class KeyType, class RecordType>
+const map<KeyType, RecordType*>& Database<KeyType, RecordType>::getKeyRecordMap() const
+{
+    return mKeyRecordMap;
+}
+
+template<class KeyType, class RecordType>
 void TextDatabase<KeyType, RecordType>::load(string filename)
 {
     Database<KeyType, RecordType>::load(filename);

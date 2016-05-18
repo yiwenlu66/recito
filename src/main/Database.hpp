@@ -14,7 +14,8 @@ public:
     virtual void add(KeyType key, RecordType* record);   // add the entry to mKeyRecordMap (raise exception for duplicate key)
     virtual void update(KeyType key) = 0;   // stage changes for commit
     virtual void commit() = 0;              // save changes to the database file
-    virtual ~Database()=default;
+    virtual ~Database() = default;
+    const map<KeyType, RecordType*>& getKeyRecordMap() const;
 
 protected:
     string mFileName;
