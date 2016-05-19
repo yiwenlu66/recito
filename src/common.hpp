@@ -21,4 +21,9 @@ vector<string> split(string s, char delimiter);
 
 string escape(string str, char toEscape, char substitute = '\0');
 
+
+vector<string> splitword(string text);
+const int MaxPageWordNumber = 4;
+const int MaxMemoryWordNumber = 100;
+
 #endif

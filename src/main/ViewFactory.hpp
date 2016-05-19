@@ -7,11 +7,11 @@
 class ViewFactory
 {
 public:
-    ViewFactory(const Control*, const Display*);
+    ViewFactory(Control*, const Display*);
     const View* make(ViewClass);
 
 private:
-    const Control* mControl;
+    Control* mControl;
     const Display* mDisplay;
 };
 

@@ -18,7 +18,7 @@ enum class ViewClass
     EXAM_ANSWER,
     EXAM_COMPLETE,
     TEXT_CHOOSE_FILE,
-    TEXT_FILE_CHOSEN,
+    TEXT_NOT_FIND_FILE,
     TEXT_WORD,
     EDIT
 };

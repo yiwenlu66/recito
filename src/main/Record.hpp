@@ -40,7 +40,6 @@ private:
     vector<int> mAnswers;
     vector<double> mAlgorithmOutput;
 };
-
 class HistoryRecord: public Record<string>
 {
 public:

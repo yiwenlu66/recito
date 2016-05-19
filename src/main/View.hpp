@@ -35,19 +35,19 @@ private:
 class MainMenuView: public View
 {
 public:
-    MainMenuView(const Display*, Control*);
+    MainMenuView(const Display*,  Control*);
 };
 
 class ChooseCategoryView: public View
 {
 public:
-    ChooseCategoryView(const Display*, Control*);
+    ChooseCategoryView(const Display*,  Control*);
 };
 
 class ReviewQuestionView: public View
 {
 public:
-    ReviewQuestionView(const Display*, Control*, string word);
+    ReviewQuestionView(const Display*,  Control*, string word);
 };
 
 class ReviewAnswerView: public View
@@ -59,67 +59,67 @@ public:
 class ReviewCompleteView: public View
 {
 public:
-    ReviewCompleteView(const Display*, Control*);
+    ReviewCompleteView(const Display*,  Control*);
 };
 
 class DictMenuView: public View
 {
 public:
-    DictMenuView(const Display*, Control*);
+    DictMenuView(const Display*,  Control*);
 };
 
 class DictInputView: public View
 {
 public:
-    DictInputView(const Display*, Control*);
+    DictInputView(const Display*,  Control*);
 };
 
 class DictHistoryView: public View
 {
 public:
-    DictHistoryView(const Display*, Control*, const vector<string>& words, bool hasPrevious, bool hasNext);
+    DictHistoryView(const Display*,  Control*, const vector<string>& words, bool hasPrevious, bool hasNext);
 };
 
 class DictWordView: public View
 {
 public:
-    DictWordView(const Display*, Control*, string word, string explanation, string example);
+    DictWordView(const Display*, const Control*, string word, string explanation, string example);
 };
 
 class DictWordNotExistView: public View
 {
 public:
-    DictWordNotExistView(const Display*, Control*);
+    DictWordNotExistView(const Display*,  Control*);
 };
 
 class ExamChooseNumberView: public View
 {
 public:
-    ExamChooseNumberView(const Display*, Control*, int maxNum);
+    ExamChooseNumberView(const Display*,  Control*, int maxNum);
 };
 
 class ExamQuestionView: public View
 {
 public:
-    ExamQuestionView(const Display*, Control*, string word, const vector<string>& choices);
+    ExamQuestionView(const Display*,  Control*, string word, const vector<string>& choices);
 };
 
 class ExamAnswerView: public View
 {
 public:
-    ExamAnswerView(const Display*, Control*, bool correct, string correctAnswer = "");
+    ExamAnswerView(const Display*,  Control*, bool correct, string correctAnswer = "");
 };
 
 class ExamCompleteView: public View
 {
 public:
-    ExamCompleteView(const Display*, Control*, double accuracy);
+    ExamCompleteView(const Display*,  Control*, double accuracy);
 };
 
 class TextChooseFileView: public View
 {
 public:
-    TextChooseFileView(const Display*, Control*);
+    TextChooseFileView(const Display*,  Control*);
 };
 
 class TextFileNotFoundView: public View
