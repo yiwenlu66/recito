@@ -36,7 +36,7 @@ vector<string> splitword(string text)
     int j = 0;
     int k = 0;
     bool isinword = false;
-    for (int i = 0; i < text.size; i++)
+    for (int i = 0; i < text.size(); i++)
     {
         if (isalpha(text[i]))
         {

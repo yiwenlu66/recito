@@ -318,7 +318,7 @@ void TextControl::reEnterFileName()
 void TextControl::calText()
 {
     vector<string> words(splitword(mText));
-    for (int i = 0; i < words.size; i++)
+    for (int i = 0; i < words.size(); i++)
     {
         WordRecord* temp(mMainLoop->getMainDatabase()->get(words[i]));
         if (temp)
@@ -326,7 +326,7 @@ void TextControl::calText()
             if (temp->getGroup() == Group::UNSEEN)
             {
                 bool exist = false;
-                for (int j = 0; j< mUnseenWords.size; j++)
+                for (int j = 0; j< mUnseenWords.size(); j++)
                 {
                     if (mUnseenWords[j]== temp->getKey())
                     {

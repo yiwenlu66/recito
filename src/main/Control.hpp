@@ -13,12 +13,14 @@ using namespace std;
 
 class View;
 class MainLoop;
+enum class ControlClass;
 
 class Control
 {
     friend class ViewFactory;
 public:
     Control(MainLoop*);
+    Control() = default;
     const View& getView() const;
     void showView() const;      // call View::show()
     virtual void backToMainMenu()=0;
@@ -40,6 +42,7 @@ public:
 class EditExampleInterface:protected Control
 {
 public:
+    EditExampleInterface() = default;
     virtual void editExample() = 0;
 protected:
     void overwriteExample(string);
