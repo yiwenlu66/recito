@@ -1,6 +1,6 @@
 #include "common.hpp"
 #include <sstream>
-#include<cctype>
+#include <cctype>
 
 vector<string> split(string s, char delimiter)
 {
@@ -17,7 +17,7 @@ vector<string> split(string s, char delimiter)
 string escape(string str, char toEscape, char substitute)
 {
     string newString;
-    for (char c: str)
+    for (char c : str)
     {
         if (c != toEscape)
         {
@@ -30,24 +30,25 @@ string escape(string str, char toEscape, char substitute)
     }
     return newString;
 }
-vector<string> splitword(string text)
+
+vector<string> splitWord(string text)
 {
     vector<string> words;
     int j = 0;
     int k = 0;
-    bool isinword = false;
-    for (int i = 0; i < text.size(); i++)
+    bool isInWord = false;
+    for (unsigned long i = 0; i < text.size(); i++)
     {
         if (isalpha(text[i]))
         {
             words[j][k++] = text[i];
-            isinword = true;
+            isInWord = true;
         }
         else
         {
-            if (isinword)
+            if (isInWord)
             {
-                isinword = false;
+                isInWord = false;
                 k = 0;
                 j++;
             }

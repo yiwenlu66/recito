@@ -1,8 +1,8 @@
 #include "Control.hpp"
 #include "ViewFactory.hpp"
 #include "View.hpp"
-#include"Database.hpp"
-#include"../algorithm/recito_algorithm.hpp"
+#include "Database.hpp"
+#include "../algorithm/recito_algorithm.hpp"
 
 Control::Control(MainLoop* mainloop)
     : mMainLoop(mainloop)
@@ -24,7 +24,7 @@ void Control::setView(ViewClass viewClass)
     delete mView;
     ViewFactory viewFactory(this, mMainLoop->getDisplay());
     mView = viewFactory.make(viewClass);
-    mViewtype = viewClass;  
+    mViewtype = viewClass;
 }
 
 void Control::showView() const
@@ -42,55 +42,53 @@ ExamControl::~ExamControl()
     delete mWordIterator;
 }
 
-
-
-
 void EditExampleInterface::overwriteExample(string example)
 {
-    Database<string, WordRecord>*maindatabase;
-    maindatabase = mMainLoop->getMainDatabase();
-    (maindatabase->get(mCurrentWord))->setExample(example);
+    Database<string, WordRecord>* mainDatabase;
+    mainDatabase = mMainLoop->getMainDatabase();
+    mainDatabase->get(mCurrentWord)->setExample(example);
 }
 
-
+// start of MainMenuControl
 
 void MainMenuControl::setControlClass(ControlClass controlclass)
 {
     mMainLoop->setControl(controlclass);
 }
-//mainMenu done
 
+// end of MainMenuControl
 
-
+// start of MemoryControl
 
 void MemoryControl::chooseGroup(Group group)
 {
-    Database<string, WordRecord>*maindatabase;
-    maindatabase = Control::mMainLoop->getMainDatabase();
+    Database<string, WordRecord>* mainDatabase;
+    mainDatabase = Control::mMainLoop->getMainDatabase();
     vector<WordWithEFI*>elements;
     mMemoryGroup = group;
-    int wordnumber = 0;
-    for (auto i: maindatabase->getKeyRecordMap())
+    int numWord = 0;
+    for (auto i : mainDatabase->getKeyRecordMap())
     {
-        
+
         if (i.second->getGroup() != group)
         {
             continue;
         }
         else
         {
-            wordnumber++;
-            if (wordnumber > MaxMemoryWordNumber)
+            ++numWord;
+            if (numWord > MAX_MEMORY_WORD)
             {
                 break;
             }
             else
             {
-                WordWithEFI *temp = new  WordWithEFI(i.second->getKey(), (i.second->getAlgorithmOutput())[0], (i.second->getAlgorithmOutput())[1]);
+                WordWithEFI *temp = new WordWithEFI(i.second->getKey(),
+                                                    (i.second->getAlgorithmOutput())[0], (i.second->getAlgorithmOutput())[1]);
                 elements.push_back(temp);
             }
         }
-        
+
     }
     mWordIterator = new WordIterator(elements);
 }
@@ -107,10 +105,10 @@ void MemoryControl::handleString(string string)
 
 void MemoryControl::addAnswer(int answer)
 {
-    Database<string, WordRecord>*maindatabase;
-    maindatabase = Control::mMainLoop->getMainDatabase();
-    maindatabase->get(mCurrentWord)->addAnswer(answer);
-    maindatabase->update(mCurrentWord);
+    Database<string, WordRecord>* mainDatabase;
+    mainDatabase = Control::mMainLoop->getMainDatabase();
+    mainDatabase->get(mCurrentWord)->addAnswer(answer);
+    mainDatabase->update(mCurrentWord);
     continueMemory();
 }
 
@@ -129,7 +127,7 @@ void MemoryControl::showAnswer()
 void MemoryControl::continueMemory()
 {
     mCurrentWord = mWordIterator->next();
-    if (mCurrentWord!="")
+    if (mCurrentWord != "")
     {
         Control::setView(ViewClass::REVIEW_QUESTION);
     }
@@ -138,8 +136,10 @@ void MemoryControl::continueMemory()
         Control::setView(ViewClass::REVIEW_COMPLETE);
     }
 }
-//Meomory done;
 
+// end of MemoryControl
+
+// start of DictControl
 
 void DictControl::editExample()
 {
@@ -153,7 +153,6 @@ void DictControl::findWord(string word)
         Control::setView(ViewClass::DICT_WORD);
         mCurrentWord = word;
         Control::mMainLoop->getHistoryDatabase()->add(word, &HistoryRecord(word));
-
     }
     else
     {
@@ -180,7 +179,7 @@ void DictControl::handleString(string input)
     {
         overwriteExample(input);
     }
-    else if (Control::mViewtype==ViewClass::DICT_INPUT)
+    else if (Control::mViewtype == ViewClass::DICT_INPUT)
     {
         findWord(input);
     }
@@ -211,14 +210,14 @@ void DictControl::previousPage()
 void DictControl::nextPage()
 {
     mBeginIndex += MaxPageWordNumber;
-    mEndIndex = ((mEndIndex + MaxPageWordNumber) < mHistoryWords.size()) ? (mEndIndex + MaxPageWordNumber) : (mHistoryWords.size() - 1);
+    mEndIndex = ((mEndIndex + MaxPageWordNumber) < mHistoryWords.size())
+                ? (mEndIndex + MaxPageWordNumber) : (mHistoryWords.size() - 1);
     mPageWords.clear();
     for (int i = mBeginIndex; i <= mEndIndex; i++)
     {
         mPageWords.push_back(mHistoryWords[i]);
     }
     Control::setView(ViewClass::DICT_HISTORY);
-
 }
 
 void DictControl::backToMainMenu()
@@ -227,35 +226,30 @@ void DictControl::backToMainMenu()
     Control::mMainLoop->getMainDatabase()->commit();
     Control::mMainLoop->setControl(ControlClass::MAIN_MENU);
 }
-//Dict done
 
+// end of DictControl
 
-
-
-
+// start of ExamControl
 
 void ExamControl::chooseGroup(Group group)
 {
     mTestGroup = group;
-    Database<string, WordRecord>*maindatabase;
-    maindatabase = Control::mMainLoop->getMainDatabase();
-    vector<WordWithEFI*>elements;
+    Database<string, WordRecord>* mainDatabase;
+    mainDatabase = Control::mMainLoop->getMainDatabase();
+    vector<WordWithEFI*> elements;
     mTestGroup = group;
-    mGroupwordnumber = 0;
+    mGroupWordNumber = 0;
     for (auto i : maindatabase->getKeyRecordMap())
     {
-
         if (i.second->getGroup() != group)
         {
             continue;
         }
         else
         {
-            mGroupwordnumber++;
+            ++mGroupWordNumber;
         }
-
     }
-    
 }
 
 void ExamControl::backToMainMenu()
@@ -265,21 +259,19 @@ void ExamControl::backToMainMenu()
 
 void ExamControl::continueExam()
 {
-    //
+    // TODO
 }
 
-void ExamControl::setTestNumber(int testnumber)
+void ExamControl::setTestNumber(int testNumber)
 {
-    mTestnumber = testnumber;
+    mTestNumber = testNumber;
 }
-
 
 //TODO
 
+// end of ExamControl
 
-
-
-
+// start of TextControl
 
 void TextControl::backToMainMenu()
 {
@@ -303,22 +295,22 @@ void TextControl::openFile(string filename)
         mCurrentWord = mUnseenWords[0];
         mIndex = 0;
         setView(ViewClass::TEXT_WORD);
-        
     }
     else
     {
         setView(ViewClass::TEXT_NOT_FIND_FILE);
     }
-
 }
+
 void TextControl::reEnterFileName()
 {
     Control::setView(ViewClass::TEXT_CHOOSE_FILE);
 }
+
 void TextControl::calText()
 {
-    vector<string> words(splitword(mText));
-    for (int i = 0; i < words.size(); i++)
+    vector<string> words(splitWord(mText));
+    for (unsigned long i = 0; i < words.size(); i++)
     {
         WordRecord* temp(mMainLoop->getMainDatabase()->get(words[i]));
         if (temp)
@@ -326,9 +318,9 @@ void TextControl::calText()
             if (temp->getGroup() == Group::UNSEEN)
             {
                 bool exist = false;
-                for (int j = 0; j< mUnseenWords.size(); j++)
+                for (unsigned long j = 0; j < mUnseenWords.size(); j++)
                 {
-                    if (mUnseenWords[j]== temp->getKey())
+                    if (mUnseenWords[j] == temp->getKey())
                     {
                         exist = true;
                         break;
@@ -341,22 +333,18 @@ void TextControl::calText()
             }
         }
     }
-
 }
 
 void TextControl::nextPage()
 {
     mCurrentWord = mUnseenWords[++mIndex];
     setView(ViewClass::TEXT_WORD);
-   
 }
+
 void TextControl::previousPage()
 {
     mCurrentWord = mUnseenWords[--mIndex];
     setView(ViewClass::TEXT_WORD);
 }
-//Text done;
 
-
-
-
+// end of TextControl

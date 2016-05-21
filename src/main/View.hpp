@@ -31,7 +31,6 @@ private:
     bool handleInput(string) const;   // call Fragment::handleInput() in sequence
 };
 
-
 class MainMenuView: public View
 {
 public:

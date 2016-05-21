@@ -9,6 +9,7 @@ using namespace std;
 
 class Control;
 enum class ControlClass;
+
 class Widget
 {
 public:

@@ -21,9 +21,9 @@ vector<string> split(string s, char delimiter);
 
 string escape(string str, char toEscape, char substitute = '\0');
 
+vector<string> splitWord(string text);
 
-vector<string> splitword(string text);
-const int MaxPageWordNumber = 4;
-const int MaxMemoryWordNumber = 100;
+const int HISTORY_PER_PAGE = 4;
+const int MAX_MEMORY_WORD = 100;
 
 #endif
