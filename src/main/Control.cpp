@@ -152,7 +152,7 @@ void DictControl::findWord(string word)
     {
         Control::setView(ViewClass::DICT_WORD);
         mCurrentWord = word;
-        Control::mMainLoop->getHistoryDatabase()->add(word, &HistoryRecord(word));
+        Control::mMainLoop->getHistoryDatabase()->add(word, new HistoryRecord(word));
     }
     else
     {
@@ -197,10 +197,10 @@ void DictControl::showHistory()
 
 void DictControl::previousPage()
 {
-    mBeginIndex -= MaxPageWordNumber;
-    mEndIndex -= MaxPageWordNumber;
+    mBeginIndex -= HISTORY_PER_PAGE;
+    mEndIndex -= HISTORY_PER_PAGE;
     mPageWords.clear();
-    for (int i = mBeginIndex; i <= mEndIndex; i++)
+    for (unsigned long i = mBeginIndex; i <= mEndIndex; i++)
     {
         mPageWords.push_back(mHistoryWords[i]);
     }
@@ -209,11 +209,11 @@ void DictControl::previousPage()
 
 void DictControl::nextPage()
 {
-    mBeginIndex += MaxPageWordNumber;
-    mEndIndex = ((mEndIndex + MaxPageWordNumber) < mHistoryWords.size())
-                ? (mEndIndex + MaxPageWordNumber) : (mHistoryWords.size() - 1);
+    mBeginIndex += HISTORY_PER_PAGE;
+    mEndIndex = ((mEndIndex + HISTORY_PER_PAGE) < mHistoryWords.size())
+                ? (mEndIndex + HISTORY_PER_PAGE) : (mHistoryWords.size() - 1);
     mPageWords.clear();
-    for (int i = mBeginIndex; i <= mEndIndex; i++)
+    for (unsigned long i = mBeginIndex; i <= mEndIndex; i++)
     {
         mPageWords.push_back(mHistoryWords[i]);
     }
@@ -239,7 +239,7 @@ void ExamControl::chooseGroup(Group group)
     vector<WordWithEFI*> elements;
     mTestGroup = group;
     mGroupWordNumber = 0;
-    for (auto i : maindatabase->getKeyRecordMap())
+    for (auto i : mainDatabase->getKeyRecordMap())
     {
         if (i.second->getGroup() != group)
         {

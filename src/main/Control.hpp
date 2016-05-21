@@ -39,13 +39,15 @@ public:
     virtual void chooseGroup(Group) = 0;
 };
 
-class EditExampleInterface: protected Control
+class EditExampleInterface
 {
 public:
-    EditExampleInterface() = default;
+    EditExampleInterface(MainLoop* mainLoop)
+        : mMainLoop(mainLoop) {  }
     virtual void editExample() = 0;
 
 protected:
+    MainLoop* mMainLoop;
     void overwriteExample(string);
     string mCurrentWord;
 };
@@ -66,7 +68,7 @@ public:
 class MainMenuControl: public Control
 {
 public:
-    MainMenuControl(MainLoop *mainloop) : Control(mainloop)
+    MainMenuControl(MainLoop* mainLoop) : Control(mainLoop)
     {
         setView(ViewClass::MAIN_MENU);
     }
@@ -78,7 +80,7 @@ class MemoryControl: public Control, public ChooseGroupInterface, public EditExa
     public StringHandlerInterface
 {
 public:
-    MemoryControl(MainLoop *mainloop) : Control(mainloop)
+    MemoryControl(MainLoop* mainLoop) : Control(mainLoop), EditExampleInterface(mainLoop)
     {
         Control::setView(ViewClass::CHOOSE_CATEGORY);
     }
@@ -102,7 +104,7 @@ class DictControl: public Control, public EditExampleInterface, public PagerInte
     public StringHandlerInterface
 {
 public:
-    DictControl(MainLoop *mainloop) : Control(mainloop)
+    DictControl(MainLoop* mainLoop) : Control(mainLoop), EditExampleInterface(mainLoop)
     {
         Control::setView(ViewClass::DICT_MENU);
     }
@@ -129,7 +131,7 @@ private:
 class ExamControl: public Control, public ChooseGroupInterface
 {
 public:
-    ExamControl(MainLoop *mainloop) : Control(mainloop)
+    ExamControl(MainLoop* mainLoop) : Control(mainLoop)
     {
         Control::setView(ViewClass::CHOOSE_CATEGORY);
     }
@@ -154,7 +156,7 @@ class TextControl: public Control,  public PagerInterface,
     public StringHandlerInterface
 {
 public:
-    TextControl(MainLoop *mainloop) : Control(mainloop)
+    TextControl(MainLoop* mainLoop) : Control(mainLoop)
     {
         Control::setView(ViewClass::TEXT_CHOOSE_FILE);
     }
