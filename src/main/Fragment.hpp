@@ -94,6 +94,12 @@ public:
     WordDoesNotExistFragment();
 };
 
+class DictHistoryEmptyFragment: public Fragment
+{
+public:
+    DictHistoryEmptyFragment();
+};
+
 class HistoryWordListFragment: public Fragment
 {
 public:

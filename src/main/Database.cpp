@@ -62,7 +62,7 @@ void Database<KeyType, RecordType>::add(KeyType key, RecordType* record)
     }
     else
     {
-        mKeyRecordMap[key] = record;
+        mKeyRecordMap.insert(pair<KeyType, RecordType*>(key, record));
     }
 }
 

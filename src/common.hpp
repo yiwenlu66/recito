@@ -35,6 +35,7 @@ enum class ViewClass
     DICT_MENU,
     DICT_INPUT,
     DICT_HISTORY,
+    DICT_HISTORY_EMPTY,
     DICT_WORD,
     DICT_WORD_NOT_EXIST,
     EXAM_CHOOSE_NUMBER,
@@ -61,5 +62,6 @@ enum class ControlClass
 vector<string> split(string s, char delimiter);
 string escape(string str, char toEscape, char substitute = '\0');
 vector<string> splitWord(string text);
+long long getCurrentTimeStamp();
 
 #endif

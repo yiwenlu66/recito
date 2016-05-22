@@ -46,8 +46,15 @@ private:
 class HistoryRecord: public Record<string>
 {
 public:
-    HistoryRecord(string);
+    // newRecord = true:    the string as the word, use the current timestamp
+    // newRecord = false:   both the word and the timestamp will be parsed from the string
+    HistoryRecord(string, bool newRecord = false);
+    long long getTimeStamp() const;
+    void setTimeStamp(long long);
     virtual string toString() const;
+
+private:
+    long long mTimestamp;
 };
 
 #endif

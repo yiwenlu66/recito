@@ -114,6 +114,14 @@ DictHistoryView::DictHistoryView(const Display* display, Control* control, const
     mFragments.push_back(new BackToMainMenuFragment());
 }
 
+DictHistoryEmptyView::DictHistoryEmptyView(const Display* display, Control* control)
+    : View(display, control)
+{
+    mFragments.push_back(new DictHistoryEmptyFragment());
+    mFragments.push_back(new GoToDictMenuFragment());
+    mFragments.push_back(new BackToMainMenuFragment());
+}
+
 DictWordView::DictWordView(const Display* display, Control* control, string word,
                            string explanation, string example)
     : View(display, control)

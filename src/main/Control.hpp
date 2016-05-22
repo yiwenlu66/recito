@@ -128,11 +128,12 @@ public:
 private:
     friend class ViewFactory;
     string mCurrentWord;
-    vector<string> mHistoryWords;   // all history words
+    vector<pair<string, long long>> mHistoryWords;   // all history words
     vector<string> mPageWords;
-    unsigned long mBeginIndex;
-    unsigned long mEndIndex;
+    unsigned long mBeginIndex = 0;
+    unsigned long mEndIndex = HISTORY_PER_PAGE;
     void findWord(string);
+    void showHistoryPage();
 };
 
 

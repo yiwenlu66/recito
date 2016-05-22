@@ -138,14 +138,46 @@ void WordRecord::addAnswer(int m)
     mAnswers.push_back(m);
 }
 
-HistoryRecord::HistoryRecord(string str)
+HistoryRecord::HistoryRecord(string str, bool newRecord)
 {
-    mKey = str;
+    if (newRecord)
+    {
+        mKey = str;
+        mTimestamp = getCurrentTimeStamp();
+    }
+    else
+    {
+        vector<string> inputs = split(str, '\t');
+        if (inputs.size() != 2)
+        {
+            throw * (new runtime_error("Broken record!"));
+        }
+        mKey = inputs[0];
+        char* e;
+        errno = 0;
+        mTimestamp = strtol(inputs[1].c_str(), &e, 10);
+        if (*e != '\0' || errno != 0)
+        {
+            throw * (new runtime_error("Broken record!"));
+        }
+    }
 }
 
 string HistoryRecord::toString() const
 {
-    return mKey;
+    stringstream ss;
+    ss << mKey << "\t" << mTimestamp;
+    return ss.str();
+}
+
+long long HistoryRecord::getTimeStamp() const
+{
+    return mTimestamp;
+}
+
+void HistoryRecord::setTimeStamp(long long timestamp)
+{
+    mTimestamp = timestamp;
 }
 
 template class Record<string>;

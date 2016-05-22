@@ -40,9 +40,12 @@ const View* ViewFactory::make(ViewClass viewClass)
     {
         DictControl* dictControl = dynamic_cast<DictControl*>(mControl);
         return new DictHistoryView(mDisplay, mControl, dictControl->mPageWords,
-                                   dictControl->mBeginIndex != 0,
-                                   dictControl->mEndIndex != dictControl->mHistoryWords.size() - 1);
+                                   dictControl->mBeginIndex > 0,
+                                   dictControl->mEndIndex < dictControl->mHistoryWords.size());
     }
+
+    case ViewClass::DICT_HISTORY_EMPTY:
+        return new DictHistoryEmptyView(mDisplay, mControl);
 
     case ViewClass::DICT_WORD:
     {

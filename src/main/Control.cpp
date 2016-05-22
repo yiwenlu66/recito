@@ -190,7 +190,7 @@ void DictControl::findWord(string word)
     {
         mCurrentWord = word;
         Control::setView(ViewClass::DICT_WORD);
-        Control::mMainLoop->getHistoryDatabase()->add(word, new HistoryRecord(word));
+        Control::mMainLoop->getHistoryDatabase()->add(word, new HistoryRecord(word, true));
     }
     else
     {
@@ -207,7 +207,11 @@ void DictControl::goToDictMenu()
 
 void DictControl::goToHistoryWord(int i)
 {
+    auto historyDatabase = Control::mMainLoop->getHistoryDatabase();
     mCurrentWord = mPageWords[i];
+    auto historyRecord = historyDatabase->get(mCurrentWord);
+    historyRecord->setTimeStamp(getCurrentTimeStamp());
+    historyDatabase->update(historyRecord->getKey());
     Control::setView(ViewClass::DICT_WORD);
 }
 
@@ -230,6 +234,34 @@ void DictControl::inputWord()
 
 void DictControl::showHistory()
 {
+    mHistoryWords.clear();
+    auto historyDatabase = Control::mMainLoop->getHistoryDatabase();
+    typedef pair<string, long long> PairType;
+    for (auto keyRecord : historyDatabase->getKeyRecordMap())
+    {
+        mHistoryWords.push_back(PairType(keyRecord.first, keyRecord.second->getTimeStamp()));
+    }
+    sort(mHistoryWords.begin(), mHistoryWords.end(), [](PairType p1, PairType p2)
+    {
+        return p1.second > p2.second;
+    });
+    if (mHistoryWords.empty())
+    {
+        setView(ViewClass::DICT_HISTORY_EMPTY);
+    }
+    else
+    {
+        showHistoryPage();
+    }
+}
+
+void DictControl::showHistoryPage()
+{
+    mPageWords.clear();
+    for (unsigned long i = mBeginIndex; i < min(mEndIndex, mHistoryWords.size()); i++)
+    {
+        mPageWords.push_back(mHistoryWords[i].first);
+    }
     Control::setView(ViewClass::DICT_HISTORY);
 }
 
@@ -237,25 +269,14 @@ void DictControl::previousPage()
 {
     mBeginIndex -= HISTORY_PER_PAGE;
     mEndIndex -= HISTORY_PER_PAGE;
-    mPageWords.clear();
-    for (unsigned long i = mBeginIndex; i <= mEndIndex; i++)
-    {
-        mPageWords.push_back(mHistoryWords[i]);
-    }
-    Control::setView(ViewClass::DICT_HISTORY);
+    showHistory();
 }
 
 void DictControl::nextPage()
 {
     mBeginIndex += HISTORY_PER_PAGE;
-    mEndIndex = ((mEndIndex + HISTORY_PER_PAGE) < mHistoryWords.size())
-                ? (mEndIndex + HISTORY_PER_PAGE) : (mHistoryWords.size() - 1);
-    mPageWords.clear();
-    for (unsigned long i = mBeginIndex; i <= mEndIndex; i++)
-    {
-        mPageWords.push_back(mHistoryWords[i]);
-    }
-    Control::setView(ViewClass::DICT_HISTORY);
+    mEndIndex += HISTORY_PER_PAGE;
+    showHistory();
 }
 
 void DictControl::backToMainMenu()

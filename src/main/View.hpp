@@ -79,6 +79,12 @@ public:
     DictHistoryView(const Display*, Control*, const vector<string>& words, bool hasPrevious, bool hasNext);
 };
 
+class DictHistoryEmptyView: public View
+{
+public:
+    DictHistoryEmptyView(const Display*, Control*);
+};
+
 class DictWordView: public View
 {
 public:

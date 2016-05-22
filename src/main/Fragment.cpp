@@ -111,6 +111,11 @@ WordDoesNotExistFragment::WordDoesNotExistFragment()
     mWidgets.push_back(new Label("Word does not exist!"));
 }
 
+DictHistoryEmptyFragment::DictHistoryEmptyFragment()
+{
+    mWidgets.push_back(new Label("History is empty!"));
+}
+
 HistoryWordListFragment::HistoryWordListFragment(const vector<string>& entries)
 {
     for (unsigned long i = 0; i < entries.size(); ++i)
