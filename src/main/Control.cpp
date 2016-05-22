@@ -101,9 +101,9 @@ void MemoryControl::chooseGroup(Group group)
                 elements.push_back(temp);
             }
         }
-
     }
     mWordIterator = new WordIterator(elements);
+    continueMemory();
 }
 
 void MemoryControl::editExample()
