@@ -167,8 +167,8 @@ void DictControl::findWord(string word)
 {
     if (Control::mMainLoop->getMainDatabase()->get(word))
     {
-        Control::setView(ViewClass::DICT_WORD);
         mCurrentWord = word;
+        Control::setView(ViewClass::DICT_WORD);
         Control::mMainLoop->getHistoryDatabase()->add(word, new HistoryRecord(word));
     }
     else
