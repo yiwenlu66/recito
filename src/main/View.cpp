@@ -11,9 +11,10 @@ View::View(const Display* display, Control* control)
 string View::toString() const
 {
     stringstream ss;
+    ss << endl;
     for (auto fragment : mFragments)
     {
-        ss << fragment->toString() << endl;
+        ss << fragment->toString();
     }
     return ss.str();
 }
