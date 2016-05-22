@@ -54,7 +54,10 @@ void Control::backToMainMenu()
 
 Control::~Control()
 {
-    delete mView;
+    if (mView != nullptr)
+    {
+        delete mView;
+    }
 }
 
 // end of Control

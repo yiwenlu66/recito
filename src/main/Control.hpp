@@ -28,7 +28,7 @@ public:
 
 protected:
     friend class ViewFactory;
-    const View* mView;
+    const View* mView = nullptr;
     ViewClass mViewClass;
     void setView(ViewClass);    // delete old view and construct new view using ViewFactory
     MainLoop* mMainLoop;
