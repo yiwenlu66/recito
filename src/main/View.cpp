@@ -128,6 +128,7 @@ DictWordView::DictWordView(const Display* display, Control* control, string word
 DictWordNotExistView::DictWordNotExistView(const Display* display, Control* control)
     : View(display, control)
 {
+    mFragments.push_back(new WordDoesNotExistFragment());
     mFragments.push_back(new GoToDictMenuFragment());
     mFragments.push_back(new BackToMainMenuFragment());
 }

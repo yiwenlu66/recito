@@ -88,6 +88,12 @@ public:
     DictInputFragment();
 };
 
+class WordDoesNotExistFragment: public Fragment
+{
+public:
+    WordDoesNotExistFragment();
+};
+
 class HistoryWordListFragment: public Fragment
 {
 public:

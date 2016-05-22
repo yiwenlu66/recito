@@ -106,6 +106,11 @@ DictInputFragment::DictInputFragment()
     mWidgets.push_back(new TextInput("Please input a word:"));
 }
 
+WordDoesNotExistFragment::WordDoesNotExistFragment()
+{
+    mWidgets.push_back(new Label("Word does not exist!"));
+}
+
 HistoryWordListFragment::HistoryWordListFragment(const vector<string>& entries)
 {
     for (unsigned long i = 0; i < entries.size(); ++i)
