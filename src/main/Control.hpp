@@ -160,7 +160,7 @@ private:
     size_t mCurrentIndex;
     vector<string> mOptions;
     int mCorrectAnswer;  // 0 for a, 1 for b, etc.
-    int mCorrectNumber;
+    int mCorrectNumber = 0;
     bool mIsCorrect;
 };
 
