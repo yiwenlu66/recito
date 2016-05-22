@@ -372,7 +372,20 @@ void ExamControl::shuffleAllWords()
 
 void TextControl::handleString(string input)
 {
-    openFile(input);
+    if (mViewClass == ViewClass::TEXT_CHOOSE_FILE)
+    {
+        openFile(input);
+    }
+    else if (mViewClass == ViewClass::EDIT)
+    {
+        overwriteExample(mCurrentWord, input);
+        setView(ViewClass::TEXT_WORD);
+    }
+}
+
+void TextControl::editExample()
+{
+    Control::setView(ViewClass::EDIT);
 }
 
 void TextControl::openFile(string filename)
@@ -404,7 +417,7 @@ void TextControl::calText()
     vector<string>* words = splitWord(mText);
     for (unsigned long i = 0; i < words->size(); i++)
     {
-        WordRecord* temp = mMainLoop->getMainDatabase()->get((*words)[i]);
+        WordRecord* temp = Control::mMainLoop->getMainDatabase()->get((*words)[i]);
         if (temp)
         {
             if (temp->getGroup() == Group::UNSEEN)

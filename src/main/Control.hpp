@@ -165,17 +165,18 @@ private:
 };
 
 
-class TextControl: public Control, public PagerInterface,
+class TextControl: public Control, public PagerInterface, public EditExampleInterface,
     public StringHandlerInterface
 {
 public:
-    TextControl(MainLoop* mainLoop) : Control(mainLoop)
+    TextControl(MainLoop* mainLoop) : Control(mainLoop), EditExampleInterface(mainLoop)
     {
         Control::setView(ViewClass::TEXT_CHOOSE_FILE);
     }
     virtual void previousPage();
     virtual void nextPage();
     virtual void handleString(string);
+    virtual void editExample();
     using Control::backToMainMenu;
     void reEnterFileName();
 
