@@ -46,7 +46,7 @@ WordRecord::WordRecord(const string& str)
 
     char* e;
     vector<string> ans = split(inputs[4], ';');
-    for (unsigned long i = 0; i < ans.size(); i++)
+    for (size_t i = 0; i < ans.size(); i++)
     {
         errno = 0;
         mAnswers.push_back(strtol(ans[i].c_str(), &e, 10));
@@ -57,7 +57,7 @@ WordRecord::WordRecord(const string& str)
     }
 
     vector<string> alg = split(inputs[5], ';');
-    for (unsigned long i = 0; i < alg.size(); i++)
+    for (size_t i = 0; i < alg.size(); i++)
     {
         errno = 0;
         mAlgorithmOutput.push_back(strtod(alg[i].c_str(), &e));
@@ -73,7 +73,7 @@ string WordRecord::toString() const
     stringstream ss;
     ss << escape(mKey, '\t', ' ') << '\t' << escape(mExample, '\t', ' ') << '\t'
        << escape(mExplanation, '\t', ' ') << '\t' << char(int(mGroup) + '0') << '\t';
-    for (unsigned long i = 0; i < mAnswers.size(); ++i)
+    for (size_t i = 0; i < mAnswers.size(); ++i)
     {
         if (i > 0)
         {
@@ -82,7 +82,7 @@ string WordRecord::toString() const
         ss << char(mAnswers[i] + '0');
     }
     ss << '\t';
-    for (unsigned long i = 0; i < mAlgorithmOutput.size(); ++i)
+    for (size_t i = 0; i < mAlgorithmOutput.size(); ++i)
     {
         if (i > 0)
         {

@@ -1,6 +1,7 @@
 #include "Fragment.hpp"
 #include <sstream>
 #include <iomanip>
+#include <algorithm>
 
 using namespace std;
 
@@ -118,7 +119,7 @@ DictHistoryEmptyFragment::DictHistoryEmptyFragment()
 
 HistoryWordListFragment::HistoryWordListFragment(const vector<string>& entries)
 {
-    for (unsigned long i = 0; i < entries.size(); ++i)
+    for (size_t i = 0; i < entries.size(); ++i)
     {
         mWidgets.push_back(new HistoryWordOption(i, entries[i]));
     }

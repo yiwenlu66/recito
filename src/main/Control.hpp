@@ -130,8 +130,8 @@ private:
     string mCurrentWord;
     vector<pair<string, long long>> mHistoryWords;   // all history words
     vector<string> mPageWords;
-    unsigned long mBeginIndex = 0;
-    unsigned long mEndIndex = HISTORY_PER_PAGE;
+    size_t mBeginIndex = 0;
+    size_t mEndIndex = HISTORY_PER_PAGE;
     void findWord(string);
     void showHistoryPage();
 };
@@ -157,7 +157,7 @@ private:
     vector<WordRecord*> mAllWordsInGroup;
     vector<WordRecord*> mWordsToBeTested;
     int mTestNumber;
-    unsigned long mCurrentIndex;
+    size_t mCurrentIndex;
     vector<string> mOptions;
     int mCorrectAnswer;  // 0 for a, 1 for b, etc.
     int mCorrectNumber;
@@ -184,7 +184,7 @@ private:
     friend class ViewFactory;
     string mFileName;
     string mCurrentWord;
-    unsigned long mIndex;
+    size_t mIndex;
     string mText;
     vector<string> mUnseenWords;
     void openFile(string);

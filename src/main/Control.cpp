@@ -259,7 +259,7 @@ void DictControl::showHistory()
 void DictControl::showHistoryPage()
 {
     mPageWords.clear();
-    for (unsigned long i = mBeginIndex; i < min(mEndIndex, mHistoryWords.size()); i++)
+    for (size_t i = mBeginIndex; i < min(mEndIndex, mHistoryWords.size()); i++)
     {
         mPageWords.push_back(mHistoryWords[i].first);
     }
@@ -302,7 +302,7 @@ void ExamControl::chooseGroup(Group group)
             mAllWordsInGroup.push_back(item.second);
         }
     }
-    mOptions.resize(min(mAllWordsInGroup.size(), static_cast<unsigned long>(EXAM_NUM_OPTIONS)));
+    mOptions.resize(min(mAllWordsInGroup.size(), static_cast<size_t>(EXAM_NUM_OPTIONS)));
     setView(ViewClass::EXAM_CHOOSE_NUMBER);
 }
 
@@ -324,7 +324,7 @@ void ExamControl::checkAnswer(string ans)
 
 void ExamControl::continueExam()
 {
-    if (mCurrentIndex < static_cast<unsigned long>(mTestNumber))
+    if (mCurrentIndex < static_cast<size_t>(mTestNumber))
     {
         shuffleAllWords();
         mCorrectAnswer = -1;
@@ -415,7 +415,7 @@ void TextControl::reEnterFileName()
 void TextControl::calText()
 {
     vector<string>* words = splitWord(mText);
-    for (unsigned long i = 0; i < words->size(); i++)
+    for (size_t i = 0; i < words->size(); i++)
     {
         WordRecord* temp = Control::mMainLoop->getMainDatabase()->get((*words)[i]);
         if (temp)
@@ -423,7 +423,7 @@ void TextControl::calText()
             if (temp->getGroup() == Group::UNSEEN)
             {
                 bool exist = false;
-                for (unsigned long j = 0; j < mUnseenWords.size(); j++)
+                for (size_t j = 0; j < mUnseenWords.size(); j++)
                 {
                     if (mUnseenWords[j] == temp->getKey())
                     {

@@ -40,7 +40,7 @@ vector<string>* splitWord(string text)
     vector<string>* words = new vector<string>(1, "");
     int j = 0;
     bool isInWord = false;
-    for (unsigned long i = 0; i < text.size(); i++)
+    for (size_t i = 0; i < text.size(); i++)
     {
         if (isalpha(text[i]))
         {
