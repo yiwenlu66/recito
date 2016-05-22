@@ -182,6 +182,13 @@ TextFileNotFoundView::TextFileNotFoundView(const Display* display, Control* cont
     mFragments.push_back(new BackToMainMenuFragment());
 }
 
+TextNoWordView::TextNoWordView(const Display* display, Control* control)
+    : View(display, control)
+{
+    mFragments.push_back(new TextNoWordFragment());
+    mFragments.push_back(new BackToMainMenuFragment());
+}
+
 TextWordView::TextWordView(const Display* display, Control* control, string word,
                            string explanation, string example,
                            bool hasPrevious, bool hasNext)

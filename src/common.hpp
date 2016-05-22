@@ -45,6 +45,7 @@ enum class ViewClass
     TEXT_CHOOSE_FILE,
     TEXT_FILE_NOT_FOUND,
     TEXT_WORD,
+    TEXT_NO_WORD,
     EDIT
 };
 

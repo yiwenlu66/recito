@@ -154,6 +154,12 @@ public:
     TextFileNotFoundFragment();
 };
 
+class TextNoWordFragment: public Fragment
+{
+public:
+    TextNoWordFragment();
+};
+
 class TextChooseFileFragment: public Fragment
 {
 public:

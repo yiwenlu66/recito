@@ -133,6 +133,12 @@ public:
     TextFileNotFoundView(const Display*, Control*);
 };
 
+class TextNoWordView: public View
+{
+public:
+    TextNoWordView(const Display*, Control*);
+};
+
 class TextWordView: public View
 {
 public:

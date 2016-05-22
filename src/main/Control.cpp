@@ -397,9 +397,16 @@ void TextControl::openFile(string filename)
         mText.assign(istreambuf_iterator<char>(fin), istreambuf_iterator<char>());
         fin.close();
         calText();
-        mCurrentWord = mUnseenWords[0];
-        mIndex = 0;
-        setView(ViewClass::TEXT_WORD);
+        if (mUnseenWords.empty())
+        {
+            setView(ViewClass::TEXT_NO_WORD);
+        }
+        else
+        {
+            mCurrentWord = mUnseenWords[0];
+            mIndex = 0;
+            setView(ViewClass::TEXT_WORD);
+        }
     }
     else
     {

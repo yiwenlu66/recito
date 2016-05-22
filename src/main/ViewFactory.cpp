@@ -152,6 +152,9 @@ const View* ViewFactory::make(ViewClass viewClass)
     case ViewClass::TEXT_FILE_NOT_FOUND:
         return new TextFileNotFoundView(mDisplay, mControl);
 
+    case ViewClass::TEXT_NO_WORD:
+        return new TextNoWordView(mDisplay, mControl);
+
     case ViewClass::TEXT_WORD:
     {
         TextControl* textControl = dynamic_cast<TextControl*>(mControl);

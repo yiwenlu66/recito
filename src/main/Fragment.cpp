@@ -188,6 +188,12 @@ TextFileNotFoundFragment::TextFileNotFoundFragment()
     mWidgets.push_back(new ReEnterFileNameOption());
 }
 
+TextNoWordFragment::TextNoWordFragment()
+{
+    mWidgets.push_back(new Label("There is no known word in the text!"));
+    mWidgets.push_back(new BackToMainMenuOption());
+}
+
 TextChooseFileFragment::TextChooseFileFragment()
 {
     mWidgets.push_back(new TextInput("Please enter the file name:"));
