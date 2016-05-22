@@ -87,7 +87,7 @@ const View* ViewFactory::make(ViewClass viewClass)
     case ViewClass::TEXT_CHOOSE_FILE:
         return new TextChooseFileView(mDisplay, mControl);
 
-    case ViewClass::TEXT_NOT_FIND_FILE:
+    case ViewClass::TEXT_FILE_NOT_FOUND:
         return new TextFileNotFoundView(mDisplay, mControl);
 
     case ViewClass::TEXT_WORD:

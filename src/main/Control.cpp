@@ -403,7 +403,7 @@ void TextControl::openFile(string filename)
     }
     else
     {
-        setView(ViewClass::TEXT_NOT_FIND_FILE);
+        setView(ViewClass::TEXT_FILE_NOT_FOUND);
     }
 }
 
