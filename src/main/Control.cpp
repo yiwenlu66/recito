@@ -303,6 +303,7 @@ void ExamControl::chooseGroup(Group group)
         }
     }
     mOptions.resize(min(mAllWordsInGroup.size(), static_cast<unsigned long>(EXAM_NUM_OPTIONS)));
+    setView(ViewClass::EXAM_CHOOSE_NUMBER);
 }
 
 void ExamControl::backToMainMenu()
@@ -312,11 +313,13 @@ void ExamControl::backToMainMenu()
 
 void ExamControl::checkAnswer(string ans)
 {
-    mIsCorrect = (to_string('a' + mCorrectAnswer) == ans);
+    mIsCorrect = (string(1, static_cast<char>('a' + mCorrectAnswer)) == ans);
     if (mIsCorrect)
     {
         ++mCorrectNumber;
     }
+    ++mCurrentIndex;
+    setView(ViewClass::EXAM_ANSWER);
 }
 
 void ExamControl::continueExam()

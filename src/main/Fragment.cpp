@@ -151,7 +151,7 @@ ChoicesFragment::ChoicesFragment(const vector<string>& choices)
     // up to 10 choices allowed
     for (int i = 0; i < min(static_cast<int>(choices.size()), 10); ++i)
     {
-        mWidgets.push_back(new ExamChoiceOption(to_string('a' + i), choices[i]));
+        mWidgets.push_back(new ExamChoiceOption(string(1, static_cast<char>('a' + i)), choices[i]));
     }
 }
 

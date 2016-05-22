@@ -67,7 +67,7 @@ const View* ViewFactory::make(ViewClass viewClass)
     case ViewClass::EXAM_QUESTION:
     {
         ExamControl* examControl = dynamic_cast<ExamControl*>(mControl);
-        return new ExamQuestionView(mDisplay, mControl, examControl->mAllWordsInGroup[examControl->mCurrentIndex]->getKey(),
+        return new ExamQuestionView(mDisplay, mControl, examControl->mWordsToBeTested[examControl->mCurrentIndex]->getKey(),
                                     examControl->mOptions);
     }
 
@@ -75,7 +75,7 @@ const View* ViewFactory::make(ViewClass viewClass)
     {
         ExamControl* examControl = dynamic_cast<ExamControl*>(mControl);
         return new ExamAnswerView(mDisplay, mControl, examControl->mIsCorrect,
-                                  to_string(examControl->mCorrectAnswer + 'a'));
+                                  string(1, static_cast<char>(examControl->mCorrectAnswer + 'a')));
     }
 
     case ViewClass::EXAM_COMPLETE:
