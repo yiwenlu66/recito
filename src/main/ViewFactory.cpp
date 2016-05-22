@@ -1,4 +1,7 @@
 #include "ViewFactory.hpp"
+#include <stdexcept>
+
+using namespace std;
 
 ViewFactory::ViewFactory(Control* control, const Display* display)
 {
@@ -17,14 +20,31 @@ const View* ViewFactory::make(ViewClass viewClass)
         return new ChooseCategoryView(mDisplay, mControl);
 
     case ViewClass::REVIEW_QUESTION:
-        return new ReviewQuestionView(mDisplay, mControl, dynamic_cast<MemoryControl*>(mControl)->mCurrentWord);
+    {
+        MemoryControl* memoryControl = dynamic_cast<MemoryControl*>(mControl);
+        if (memoryControl != nullptr)
+        {
+            return new ReviewQuestionView(mDisplay, mControl, memoryControl->mCurrentWord);
+        }
+        else
+        {
+            throw * (new logic_error("Error: Illegal casting."));
+        }
+    }
 
     case ViewClass::REVIEW_ANSWER:
     {
         MemoryControl* memoryControl = dynamic_cast<MemoryControl*>(mControl);
-        WordRecord* wordRecord = memoryControl->Control::mMainLoop->getMainDatabase()->get(memoryControl->mCurrentWord);
-        return new ReviewAnswerView(mDisplay, mControl, wordRecord->getKey(),
-                                    wordRecord->getExplanation(), wordRecord->getExample());
+        if (memoryControl != nullptr)
+        {
+            WordRecord* wordRecord = memoryControl->Control::mMainLoop->getMainDatabase()->get(memoryControl->mCurrentWord);
+            return new ReviewAnswerView(mDisplay, mControl, wordRecord->getKey(),
+                                        wordRecord->getExplanation(), wordRecord->getExample());
+        }
+        else
+        {
+            throw * (new logic_error("Error: Illegal casting."));
+        }
     }
 
     case ViewClass::REVIEW_COMPLETE:
@@ -39,9 +59,16 @@ const View* ViewFactory::make(ViewClass viewClass)
     case ViewClass::DICT_HISTORY:
     {
         DictControl* dictControl = dynamic_cast<DictControl*>(mControl);
-        return new DictHistoryView(mDisplay, mControl, dictControl->mPageWords,
-                                   dictControl->mBeginIndex > 0,
-                                   dictControl->mEndIndex < dictControl->mHistoryWords.size());
+        if (dictControl != nullptr)
+        {
+            return new DictHistoryView(mDisplay, mControl, dictControl->mPageWords,
+                                       dictControl->mBeginIndex > 0,
+                                       dictControl->mEndIndex < dictControl->mHistoryWords.size());
+        }
+        else
+        {
+            throw * (new logic_error("Error: Illegal casting."));
+        }
     }
 
     case ViewClass::DICT_HISTORY_EMPTY:
@@ -50,9 +77,16 @@ const View* ViewFactory::make(ViewClass viewClass)
     case ViewClass::DICT_WORD:
     {
         DictControl* dictControl = dynamic_cast<DictControl*>(mControl);
-        WordRecord* wordRecord = dictControl->Control::mMainLoop->getMainDatabase()->get(dictControl->mCurrentWord);
-        return new DictWordView(mDisplay, mControl, wordRecord->getKey(),
-                                wordRecord->getExplanation(), wordRecord->getExample());
+        if (dictControl != nullptr)
+        {
+            WordRecord* wordRecord = dictControl->Control::mMainLoop->getMainDatabase()->get(dictControl->mCurrentWord);
+            return new DictWordView(mDisplay, mControl, wordRecord->getKey(),
+                                    wordRecord->getExplanation(), wordRecord->getExample());
+        }
+        else
+        {
+            throw * (new logic_error("Error: Illegal casting."));
+        }
     }
 
     case ViewClass::DICT_WORD_NOT_EXIST:
@@ -61,27 +95,55 @@ const View* ViewFactory::make(ViewClass viewClass)
     case ViewClass::EXAM_CHOOSE_NUMBER:
     {
         ExamControl* examControl = dynamic_cast<ExamControl*>(mControl);
-        return new ExamChooseNumberView(mDisplay, mControl, static_cast<int>(examControl->mAllWordsInGroup.size()));
+        if (examControl != nullptr)
+        {
+            return new ExamChooseNumberView(mDisplay, mControl, static_cast<int>(examControl->mAllWordsInGroup.size()));
+        }
+        else
+        {
+            throw * (new logic_error("Error: Illegal casting."));
+        }
     }
 
     case ViewClass::EXAM_QUESTION:
     {
         ExamControl* examControl = dynamic_cast<ExamControl*>(mControl);
-        return new ExamQuestionView(mDisplay, mControl, examControl->mWordsToBeTested[examControl->mCurrentIndex]->getKey(),
-                                    examControl->mOptions);
+        if (examControl != nullptr)
+        {
+            return new ExamQuestionView(mDisplay, mControl, examControl->mWordsToBeTested[examControl->mCurrentIndex]->getKey(),
+                                        examControl->mOptions);
+        }
+        else
+        {
+            throw * (new logic_error("Error: Illegal casting."));
+        }
     }
 
     case ViewClass::EXAM_ANSWER:
     {
         ExamControl* examControl = dynamic_cast<ExamControl*>(mControl);
-        return new ExamAnswerView(mDisplay, mControl, examControl->mIsCorrect,
-                                  string(1, static_cast<char>(examControl->mCorrectAnswer + 'a')));
+        if (examControl != nullptr)
+        {
+            return new ExamAnswerView(mDisplay, mControl, examControl->mIsCorrect,
+                                      string(1, static_cast<char>(examControl->mCorrectAnswer + 'a')));
+        }
+        else
+        {
+            throw * (new logic_error("Error: Illegal casting."));
+        }
     }
 
     case ViewClass::EXAM_COMPLETE:
     {
         ExamControl* examControl = dynamic_cast<ExamControl*>(mControl);
-        return new ExamCompleteView(mDisplay, mControl, 1.0 * examControl->mCorrectNumber / examControl->mTestNumber);
+        if (examControl != nullptr)
+        {
+            return new ExamCompleteView(mDisplay, mControl, 1.0 * examControl->mCorrectNumber / examControl->mTestNumber);
+        }
+        else
+        {
+            throw * (new logic_error("Error: Illegal casting."));
+        }
     }
 
     case ViewClass::TEXT_CHOOSE_FILE:
@@ -93,9 +155,16 @@ const View* ViewFactory::make(ViewClass viewClass)
     case ViewClass::TEXT_WORD:
     {
         TextControl* textControl = dynamic_cast<TextControl*>(mControl);
-        WordRecord* wordRecord = textControl->Control::mMainLoop->getMainDatabase()->get(textControl->mCurrentWord);
-        return new TextWordView(mDisplay, mControl, wordRecord->getKey(), wordRecord->getExplanation(), wordRecord->getExample(),
-                                textControl->mIndex != 0, textControl->mIndex != textControl->mUnseenWords.size() - 1);
+        if (textControl != nullptr)
+        {
+            WordRecord* wordRecord = textControl->Control::mMainLoop->getMainDatabase()->get(textControl->mCurrentWord);
+            return new TextWordView(mDisplay, mControl, wordRecord->getKey(), wordRecord->getExplanation(), wordRecord->getExample(),
+                                    textControl->mIndex != 0, textControl->mIndex != textControl->mUnseenWords.size() - 1);
+        }
+        else
+        {
+            throw * (new logic_error("Error: Illegal casting."));
+        }
     }
 
     case ViewClass::EDIT:
