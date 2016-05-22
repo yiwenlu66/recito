@@ -11,19 +11,6 @@ using namespace std;
 template<class KeyType, class RecordType>
 void Database<KeyType, RecordType>::load(string fileName)
 {
-    ifstream fin;
-    fin.open(fileName);
-    if (fin.is_open())
-    {
-        mFileName = fileName;
-        fin.close();
-    }
-    else
-    {
-        fin.close();
-        throw * (new runtime_error("Failed to open file for reading!"));
-    }
-
     ofstream fout;
     fout.open(fileName, ios::app);
     if (fout.is_open())
@@ -35,6 +22,19 @@ void Database<KeyType, RecordType>::load(string fileName)
     {
         fout.close();
         throw * (new runtime_error("Failed to open file for writing!"));
+    }
+
+    ifstream fin;
+    fin.open(fileName);
+    if (fin.is_open())
+    {
+        mFileName = fileName;
+        fin.close();
+    }
+    else
+    {
+        fin.close();
+        throw * (new runtime_error("Failed to open file for reading!"));
     }
 }
 
