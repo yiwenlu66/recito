@@ -83,7 +83,7 @@ void MemoryControl::chooseGroup(Group group)
     for (auto i : mainDatabase->getKeyRecordMap())
     {
 
-        if (i.second->getGroup() != group)
+        if (i.second->getGroup() != group && i.second->getGroup() != Group::ALL)
         {
             continue;
         }
