@@ -88,6 +88,7 @@ ReviewCompleteView::ReviewCompleteView(const Display* display, Control* control)
     : View(display, control)
 {
     mFragments.push_back(new ReviewCompleteFragment());
+    mFragments.push_back(new BackToMainMenuFragment());
 }
 
 DictMenuView::DictMenuView(const Display* display, Control* control)
