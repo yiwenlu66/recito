@@ -120,7 +120,26 @@ void MemoryControl::addAnswer(int answer)
 {
     DB mainDatabase;
     mainDatabase = Control::mMainLoop->getMainDatabase();
-    mainDatabase->get(mCurrentWord)->addAnswer(answer);
+    WordRecord* record = mainDatabase->get(mCurrentWord);
+    record->addAnswer(answer);
+
+    // update algorithm output
+    double EF = record->getAlgorithmOutput()[0];
+    double I = record->getAlgorithmOutput()[1];
+    int q = (answer == 0) ? answer : answer + 2;
+    record->setAlgorithmOutput(interval(EF, q, I));
+
+    // regroup
+    EF = record->getAlgorithmOutput()[0];
+    I = record->getAlgorithmOutput()[1];
+    record->setGroup(group(record->getGroup(), record->getAnswers(), EF, I));
+
+    // if answer is 0, review again
+    if (answer == 0)
+    {
+        mWordIterator->add(new WordWithEFI(record->getKey(), EF, I));
+    }
+
     mainDatabase->update(mCurrentWord);
     continueMemory();
 }

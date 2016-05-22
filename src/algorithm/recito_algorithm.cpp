@@ -105,8 +105,14 @@ void WordIterator::add(WordWithEFI* wordWithEFI)
             throw * (new runtime_error("Key exists!"));
         }
     }
-    mWordsToBeTested.push_back(wordWithEFI);
-    sortWords();
+    if (mWordsToBeTested.size() >= static_cast<unsigned long>(10))
+    {
+        mWordsToBeTested.insert(mWordsToBeTested.end() - 10, wordWithEFI);
+    }
+    else
+    {
+        mWordsToBeTested.insert(mWordsToBeTested.begin(), wordWithEFI);
+    }
 }
 
 WordIterator::~WordIterator()
