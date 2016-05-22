@@ -13,11 +13,12 @@ typedef Database<string, WordRecord>* DB;
 
 // start of EditExampleInterface
 
-void EditExampleInterface::overwriteExample(string example)
+void EditExampleInterface::overwriteExample(string word, string example)
 {
-    DB mainDatabase;
-    mainDatabase = mMainLoop->getMainDatabase();
-    mainDatabase->get(mCurrentWord)->setExample(example);
+    auto mainDatabase = mMainLoop->getMainDatabase();
+    auto record = mainDatabase->get(word);
+    record->setExample(example);
+    mainDatabase->update(record->getKey());
 }
 
 // end of EditExampleInterface
@@ -113,7 +114,8 @@ void MemoryControl::editExample()
 
 void MemoryControl::handleString(string string)
 {
-    overwriteExample(string);
+    overwriteExample(mCurrentWord, string);
+    setView(ViewClass::REVIEW_ANSWER);
 }
 
 void MemoryControl::addAnswer(int answer)
@@ -213,7 +215,7 @@ void DictControl::handleString(string input)
 {
     if (Control::mViewClass == ViewClass::EDIT)
     {
-        overwriteExample(input);
+        overwriteExample(mCurrentWord, input);
     }
     else if (Control::mViewClass == ViewClass::DICT_INPUT)
     {

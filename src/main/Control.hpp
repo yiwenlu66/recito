@@ -51,8 +51,7 @@ public:
 
 protected:
     MainLoop* mMainLoop;
-    void overwriteExample(string);
-    string mCurrentWord;
+    void overwriteExample(string word, string example);
 };
 
 
