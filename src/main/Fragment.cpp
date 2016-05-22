@@ -191,7 +191,6 @@ TextFileNotFoundFragment::TextFileNotFoundFragment()
 TextNoWordFragment::TextNoWordFragment()
 {
     mWidgets.push_back(new Label("There is no known word in the text!"));
-    mWidgets.push_back(new BackToMainMenuOption());
 }
 
 TextChooseFileFragment::TextChooseFileFragment()
