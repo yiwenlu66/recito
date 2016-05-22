@@ -7,7 +7,6 @@ using namespace std;
 
 const string DEFAULT_MAIN_DATABASE_FILE_NAME = "res/dict.txt";
 const string DEFAULT_HISTORY_FILE_NAME = "history.txt";
-const string DEFAULT_ALGORITHM_LIB_FILE_NAME = "algorithm.so";
 
 void printUsage(const CommandLineParser&);
 
@@ -36,12 +35,10 @@ void printUsage(const CommandLineParser& commandLineParser)
          << "[--help] "
          << "[-d <main database file name>] "
          << "[-h <history file name>] "
-         << "[-a <algorithm library file name>] "
          << endl << endl
          << "Arguments: " << endl
          << "--help" << "\t" << "show this message" << endl
          << "-d" << "\t" << "main database file name" << "\t\t" << "default: res/dict.txt" << endl
          << "-h" << "\t" << "history file name" << "\t\t" << "default: history.txt" << endl
-         << "-a" << "\t" << "algorithm library file name" << "\t" << "default: algorithm[.dll/.so/.dylib]" << endl
          ;
 }
