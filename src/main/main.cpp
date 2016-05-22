@@ -40,8 +40,8 @@ void printUsage(const CommandLineParser& commandLineParser)
          << endl << endl
          << "Arguments: " << endl
          << "--help" << "\t" << "show this message" << endl
-         << "-d" << "\t" << "main database file name" << "\t" << "default: res/dict.txt" << endl
-         << "-h" << "\t" << "history file name" << "\t" << "default: history.txt" << endl
+         << "-d" << "\t" << "main database file name" << "\t\t" << "default: res/dict.txt" << endl
+         << "-h" << "\t" << "history file name" << "\t\t" << "default: history.txt" << endl
          << "-a" << "\t" << "algorithm library file name" << "\t" << "default: algorithm[.dll/.so/.dylib]" << endl
          ;
 }
