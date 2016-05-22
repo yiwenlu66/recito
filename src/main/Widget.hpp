@@ -14,7 +14,7 @@ class Widget
 {
 public:
     virtual bool handleInput(string input, Control* control) const; // return true if the input is handled; do nothing by default
-    virtual string toString() const;
+    virtual string toString() const = 0;
     virtual ~Widget() = default;
 };
 
@@ -59,7 +59,7 @@ public:
 protected:
     string mKey;
     string mHintText;
-    virtual void callControl(Control*) const;
+    virtual void callControl(Control*) const = 0;
 };
 
 class ChooseModeOption: public Option

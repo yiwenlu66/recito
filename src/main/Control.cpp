@@ -3,15 +3,30 @@
 #include "View.hpp"
 #include "Database.hpp"
 #include "../algorithm/recito_algorithm.hpp"
+#include <algorithm>
+#include <random>
+#include <chrono>
+#include <cstdlib>
+#include <ctime>
+
+typedef Database<string, WordRecord>* DB;
+
+// start of EditExampleInterface
+
+void EditExampleInterface::overwriteExample(string example)
+{
+    DB mainDatabase;
+    mainDatabase = mMainLoop->getMainDatabase();
+    mainDatabase->get(mCurrentWord)->setExample(example);
+}
+
+// end of EditExampleInterface
+
+// start of Control
 
 Control::Control(MainLoop* mainloop)
     : mMainLoop(mainloop)
 {
-}
-
-Control::~Control()
-{
-    delete mView;
 }
 
 const View& Control::getView() const
@@ -24,7 +39,7 @@ void Control::setView(ViewClass viewClass)
     delete mView;
     ViewFactory viewFactory(this, mMainLoop->getDisplay());
     mView = viewFactory.make(viewClass);
-    mViewtype = viewClass;
+    mViewClass = viewClass;
 }
 
 void Control::showView() const
@@ -32,22 +47,17 @@ void Control::showView() const
     mView->show();
 }
 
-MemoryControl::~MemoryControl()
+void Control::backToMainMenu()
 {
-    delete mWordIterator;
+    Control::mMainLoop->setControl(ControlClass::MAIN_MENU);
 }
 
-ExamControl::~ExamControl()
+Control::~Control()
 {
-    delete mWordIterator;
+    delete mView;
 }
 
-void EditExampleInterface::overwriteExample(string example)
-{
-    Database<string, WordRecord>* mainDatabase;
-    mainDatabase = mMainLoop->getMainDatabase();
-    mainDatabase->get(mCurrentWord)->setExample(example);
-}
+// end of Control
 
 // start of MainMenuControl
 
@@ -62,9 +72,9 @@ void MainMenuControl::setControlClass(ControlClass controlclass)
 
 void MemoryControl::chooseGroup(Group group)
 {
-    Database<string, WordRecord>* mainDatabase;
+    DB mainDatabase;
     mainDatabase = Control::mMainLoop->getMainDatabase();
-    vector<WordWithEFI*>elements;
+    vector<WordWithEFI*> elements;
     mMemoryGroup = group;
     int numWord = 0;
     for (auto i : mainDatabase->getKeyRecordMap())
@@ -105,7 +115,7 @@ void MemoryControl::handleString(string string)
 
 void MemoryControl::addAnswer(int answer)
 {
-    Database<string, WordRecord>* mainDatabase;
+    DB mainDatabase;
     mainDatabase = Control::mMainLoop->getMainDatabase();
     mainDatabase->get(mCurrentWord)->addAnswer(answer);
     mainDatabase->update(mCurrentWord);
@@ -116,7 +126,6 @@ void MemoryControl::backToMainMenu()
 {
     Control::mMainLoop->getMainDatabase()->commit();
     Control::mMainLoop->setControl(ControlClass::MAIN_MENU);
-
 }
 
 void MemoryControl::showAnswer()
@@ -135,6 +144,11 @@ void MemoryControl::continueMemory()
     {
         Control::setView(ViewClass::REVIEW_COMPLETE);
     }
+}
+
+MemoryControl::~MemoryControl()
+{
+    delete mWordIterator;
 }
 
 // end of MemoryControl
@@ -175,11 +189,11 @@ void DictControl::goToHistoryWord(int i)
 
 void DictControl::handleString(string input)
 {
-    if (Control::mViewtype == ViewClass::EDIT)
+    if (Control::mViewClass == ViewClass::EDIT)
     {
         overwriteExample(input);
     }
-    else if (Control::mViewtype == ViewClass::DICT_INPUT)
+    else if (Control::mViewClass == ViewClass::DICT_INPUT)
     {
         findWord(input);
     }
@@ -234,22 +248,15 @@ void DictControl::backToMainMenu()
 void ExamControl::chooseGroup(Group group)
 {
     mTestGroup = group;
-    Database<string, WordRecord>* mainDatabase;
-    mainDatabase = Control::mMainLoop->getMainDatabase();
-    vector<WordWithEFI*> elements;
-    mTestGroup = group;
-    mGroupWordNumber = 0;
-    for (auto i : mainDatabase->getKeyRecordMap())
+    const DB mainDatabase = Control::mMainLoop->getMainDatabase();
+    for (auto item : mainDatabase->getKeyRecordMap())
     {
-        if (i.second->getGroup() != group)
+        if (group == Group::ALL || item.second->getGroup() == group)
         {
-            continue;
-        }
-        else
-        {
-            ++mGroupWordNumber;
+            mAllWordsInGroup.push_back(item.second);
         }
     }
+    mOptions.resize(min(mAllWordsInGroup.size(), static_cast<unsigned long>(EXAM_NUM_OPTIONS)));
 }
 
 void ExamControl::backToMainMenu()
@@ -257,26 +264,62 @@ void ExamControl::backToMainMenu()
     Control::mMainLoop->setControl(ControlClass::MAIN_MENU);
 }
 
+void ExamControl::checkAnswer(string ans)
+{
+    mIsCorrect = (to_string('a' + mCorrectAnswer) == ans);
+    if (mIsCorrect)
+    {
+        ++mCorrectNumber;
+    }
+}
+
 void ExamControl::continueExam()
 {
-    // TODO
+    if (mCurrentIndex < static_cast<unsigned long>(mTestNumber))
+    {
+        shuffleAllWords();
+        mCorrectAnswer = -1;
+        for (int i = 0; i < static_cast<int>(mOptions.size()); ++i)
+        {
+            mOptions[i] = mAllWordsInGroup[i]->getExplanation();
+            if (mAllWordsInGroup[i]->getKey() == mWordsToBeTested[mCurrentIndex]->getKey())
+            {
+                mCorrectAnswer = i;
+            }
+        }
+        if (mCorrectAnswer == -1)
+        {
+            srand(time(NULL));
+            mCorrectAnswer = rand() % mOptions.size();
+            mOptions[mCorrectAnswer] = mWordsToBeTested[mCurrentIndex]->getExplanation();
+        }
+        setView(ViewClass::EXAM_QUESTION);
+    }
+    else
+    {
+        setView(ViewClass::EXAM_COMPLETE);
+    }
 }
 
 void ExamControl::setTestNumber(int testNumber)
 {
+    shuffleAllWords();
+    mWordsToBeTested.resize(testNumber);
+    copy(mAllWordsInGroup.begin(), mAllWordsInGroup.begin() + testNumber, mWordsToBeTested.begin());
     mTestNumber = testNumber;
+    mCurrentIndex = 0;
+    continueExam();
 }
 
-//TODO
+void ExamControl::shuffleAllWords()
+{
+    unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+    shuffle(mAllWordsInGroup.begin(), mAllWordsInGroup.end(), default_random_engine(seed));
+}
 
 // end of ExamControl
 
 // start of TextControl
-
-void TextControl::backToMainMenu()
-{
-    Control::mMainLoop->setControl(ControlClass::MAIN_MENU);
-}
 
 void TextControl::handleString(string input)
 {
@@ -348,3 +391,12 @@ void TextControl::previousPage()
 }
 
 // end of TextControl
+
+// start of QuitControl
+
+QuitControl::QuitControl(MainLoop* mainLoop)
+{
+    mainLoop->stop();
+}
+
+// end of QuitControl

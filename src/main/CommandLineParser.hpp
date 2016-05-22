@@ -10,13 +10,13 @@ class CommandLineParser
 {
 public:
     CommandLineParser(int argc, char* argv[]);
-    bool keyExists(string key);
-    string getValue(string key);
-    string getName();
+    bool keyExists(string key) const;
+    string getValue(string key) const;
+    string getName() const;
 
 private:
     vector<string> mElements;
-    int index(string key);
+    int index(string key) const;
 };
 
 #endif

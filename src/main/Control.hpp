@@ -3,7 +3,6 @@
 
 #include <string>
 #include <fstream>
-#include "ViewClass.hpp"
 #include "View.hpp"
 #include "MainLoop.hpp"
 #include "../common.hpp"
@@ -12,8 +11,10 @@
 using namespace std;
 
 class View;
-class MainLoop;
 enum class ControlClass;
+class WordRecord;
+class MainLoop;
+
 
 class Control
 {
@@ -22,22 +23,24 @@ public:
     Control() = default;
     const View& getView() const;
     void showView() const;      // call View::show()
-    virtual void backToMainMenu() = 0;
+    virtual void backToMainMenu();
     virtual ~Control();
 
 protected:
     friend class ViewFactory;
     const View* mView;
-    ViewClass mViewtype;
+    ViewClass mViewClass;
     void setView(ViewClass);    // delete old view and construct new view using ViewFactory
     MainLoop* mMainLoop;
 };
+
 
 class ChooseGroupInterface
 {
 public:
     virtual void chooseGroup(Group) = 0;
 };
+
 
 class EditExampleInterface
 {
@@ -52,6 +55,7 @@ protected:
     string mCurrentWord;
 };
 
+
 class PagerInterface
 {
 public:
@@ -59,11 +63,13 @@ public:
     virtual void nextPage() = 0;
 };
 
+
 class StringHandlerInterface
 {
 public:
     virtual void handleString(string) = 0;
 };
+
 
 class MainMenuControl: public Control
 {
@@ -75,6 +81,7 @@ public:
     void setControlClass(ControlClass);
     void backToMainMenu() {  }
 };
+
 
 class MemoryControl: public Control, public ChooseGroupInterface, public EditExampleInterface,
     public StringHandlerInterface
@@ -99,6 +106,7 @@ private:
     void continueMemory();
     Group mMemoryGroup;
 };
+
 
 class DictControl: public Control, public EditExampleInterface, public PagerInterface,
     public StringHandlerInterface
@@ -128,6 +136,7 @@ private:
     void findWord(string);
 };
 
+
 class ExamControl: public Control, public ChooseGroupInterface
 {
 public:
@@ -139,20 +148,24 @@ public:
     virtual void backToMainMenu();
     void setTestNumber(int);
     void continueExam();
-    virtual ~ExamControl();
+    void checkAnswer(string);
 
 private:
     friend class ViewFactory;
-    WordIterator* mWordIterator;
-    string mCurrentWord;
-    vector<string> mCurrentOptions;
+    void shuffleAllWords();
     Group mTestGroup;
-    unsigned long correctIndex;
-    int mGroupWordNumber;
+    vector<WordRecord*> mAllWordsInGroup;
+    vector<WordRecord*> mWordsToBeTested;
     int mTestNumber;
+    unsigned long mCurrentIndex;
+    vector<string> mOptions;
+    int mCorrectAnswer;  // 0 for a, 1 for b, etc.
+    int mCorrectNumber;
+    bool mIsCorrect;
 };
 
-class TextControl: public Control,  public PagerInterface,
+
+class TextControl: public Control, public PagerInterface,
     public StringHandlerInterface
 {
 public:
@@ -163,7 +176,7 @@ public:
     virtual void previousPage();
     virtual void nextPage();
     virtual void handleString(string);
-    virtual void backToMainMenu();
+    using Control::backToMainMenu;
     void reEnterFileName();
 
 private:
@@ -176,5 +189,13 @@ private:
     void openFile(string);
     void calText();
 };
+
+
+class QuitControl: public Control
+{
+public:
+    QuitControl(MainLoop*);
+};
+
 
 #endif

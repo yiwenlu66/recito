@@ -8,12 +8,12 @@ CommandLineParser::CommandLineParser(int argc, char* argv[])
     }
 }
 
-bool CommandLineParser::keyExists(string key)
+bool CommandLineParser::keyExists(string key) const
 {
     return index(key) != -1;
 }
 
-int CommandLineParser::index(string key)
+int CommandLineParser::index(string key) const
 {
     for (int i = 0; i < static_cast<int>(mElements.size()); ++i)
     {
@@ -25,7 +25,7 @@ int CommandLineParser::index(string key)
     return -1;
 }
 
-string CommandLineParser::getValue(string key)
+string CommandLineParser::getValue(string key) const
 {
     int i = index(key);
     if (i == -1 || i == static_cast<int>(mElements.size()) - 1)
@@ -35,7 +35,7 @@ string CommandLineParser::getValue(string key)
     return mElements[i + 1];
 }
 
-string CommandLineParser::getName()
+string CommandLineParser::getName() const
 {
     return mElements[0];
 }

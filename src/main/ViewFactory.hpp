@@ -2,7 +2,7 @@
 #define VIEWFACTORY_HPP
 
 #include "Control.hpp"
-#include "ViewClass.hpp"
+#include "../common.hpp"
 
 class ViewFactory
 {

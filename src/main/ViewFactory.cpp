@@ -21,10 +21,10 @@ const View* ViewFactory::make(ViewClass viewClass)
 
     case ViewClass::REVIEW_ANSWER:
     {
-        MemoryControl* tempControl = dynamic_cast<MemoryControl*>(mControl);
-        WordRecord* tempRecord = tempControl->Control::mMainLoop->getMainDatabase()->get(tempControl->mCurrentWord);
-        return new ReviewAnswerView(mDisplay, mControl, tempRecord->getKey(),
-                                    tempRecord->getExplanation(), tempRecord->getExample());
+        MemoryControl* memoryControl = dynamic_cast<MemoryControl*>(mControl);
+        WordRecord* wordRecord = memoryControl->Control::mMainLoop->getMainDatabase()->get(memoryControl->mCurrentWord);
+        return new ReviewAnswerView(mDisplay, mControl, wordRecord->getKey(),
+                                    wordRecord->getExplanation(), wordRecord->getExample());
     }
 
     case ViewClass::REVIEW_COMPLETE:
@@ -38,18 +38,18 @@ const View* ViewFactory::make(ViewClass viewClass)
 
     case ViewClass::DICT_HISTORY:
     {
-        DictControl* tempControl = dynamic_cast<DictControl*>(mControl);
-        return new DictHistoryView(mDisplay, mControl, tempControl->mPageWords,
-                                   tempControl->mBeginIndex != 0,
-                                   tempControl->mEndIndex != tempControl->mHistoryWords.size() - 1);
+        DictControl* dictControl = dynamic_cast<DictControl*>(mControl);
+        return new DictHistoryView(mDisplay, mControl, dictControl->mPageWords,
+                                   dictControl->mBeginIndex != 0,
+                                   dictControl->mEndIndex != dictControl->mHistoryWords.size() - 1);
     }
 
     case ViewClass::DICT_WORD:
     {
-        DictControl* tempControl = dynamic_cast<DictControl*>(mControl);
-        WordRecord* tempRecord = tempControl->Control::mMainLoop->getMainDatabase()->get(tempControl->mCurrentWord);
-        return new DictWordView(mDisplay, mControl, tempRecord->getKey(),
-                                tempRecord->getExplanation(), tempRecord->getExample());
+        DictControl* dictControl = dynamic_cast<DictControl*>(mControl);
+        WordRecord* wordRecord = dictControl->Control::mMainLoop->getMainDatabase()->get(dictControl->mCurrentWord);
+        return new DictWordView(mDisplay, mControl, wordRecord->getKey(),
+                                wordRecord->getExplanation(), wordRecord->getExample());
     }
 
     case ViewClass::DICT_WORD_NOT_EXIST:
@@ -57,18 +57,29 @@ const View* ViewFactory::make(ViewClass viewClass)
 
     case ViewClass::EXAM_CHOOSE_NUMBER:
     {
-        ExamControl* tempControl = dynamic_cast<ExamControl*>(mControl);
-        return new ExamChooseNumberView(mDisplay, mControl, tempControl->mGroupWordNumber);
+        ExamControl* examControl = dynamic_cast<ExamControl*>(mControl);
+        return new ExamChooseNumberView(mDisplay, mControl, static_cast<int>(examControl->mAllWordsInGroup.size()));
     }
 
     case ViewClass::EXAM_QUESTION:
-    // TODO
+    {
+        ExamControl* examControl = dynamic_cast<ExamControl*>(mControl);
+        return new ExamQuestionView(mDisplay, mControl, examControl->mAllWordsInGroup[examControl->mCurrentIndex]->getKey(),
+                                    examControl->mOptions);
+    }
 
     case ViewClass::EXAM_ANSWER:
-    // TODO
+    {
+        ExamControl* examControl = dynamic_cast<ExamControl*>(mControl);
+        return new ExamAnswerView(mDisplay, mControl, examControl->mIsCorrect,
+                                  to_string(examControl->mCorrectAnswer + 'a'));
+    }
 
     case ViewClass::EXAM_COMPLETE:
-    // TODO
+    {
+        ExamControl* examControl = dynamic_cast<ExamControl*>(mControl);
+        return new ExamCompleteView(mDisplay, mControl, 1.0 * examControl->mCorrectNumber / examControl->mTestNumber);
+    }
 
     case ViewClass::TEXT_CHOOSE_FILE:
         return new TextChooseFileView(mDisplay, mControl);
@@ -78,10 +89,10 @@ const View* ViewFactory::make(ViewClass viewClass)
 
     case ViewClass::TEXT_WORD:
     {
-        TextControl* tempControl = dynamic_cast<TextControl*>(mControl);
-        WordRecord* tempRecord = tempControl->Control::mMainLoop->getMainDatabase()->get(tempControl->mCurrentWord);
-        return new TextWordView(mDisplay, mControl, tempRecord->getKey(), tempRecord->getExplanation(), tempRecord->getExample(),
-                                tempControl->mIndex != 0, tempControl->mIndex != tempControl->mUnseenWords.size() - 1);
+        TextControl* textControl = dynamic_cast<TextControl*>(mControl);
+        WordRecord* wordRecord = textControl->Control::mMainLoop->getMainDatabase()->get(textControl->mCurrentWord);
+        return new TextWordView(mDisplay, mControl, wordRecord->getKey(), wordRecord->getExplanation(), wordRecord->getExample(),
+                                textControl->mIndex != 0, textControl->mIndex != textControl->mUnseenWords.size() - 1);
     }
 
     case ViewClass::EDIT:

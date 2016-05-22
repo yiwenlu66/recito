@@ -14,6 +14,8 @@ public:
     Record() = default;
     virtual string toString() const = 0;
     KeyType getKey() const;
+    virtual ~Record() = default;
+
 protected:
     KeyType mKey;
 };

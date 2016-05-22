@@ -332,6 +332,19 @@ void GoToDictMenuOption::callControl(Control* control) const
     }
 }
 
+void ExamChoiceOption::callControl(Control* control) const
+{
+    ExamControl* examControl = dynamic_cast<ExamControl*>(control);
+    if (examControl != nullptr)
+    {
+        examControl->checkAnswer(mKey);
+    }
+    else
+    {
+        throw *(new logic_error("ERROR: Illegal call on checkAnswer()"));
+    }
+}
+
 ExamContinueOption::ExamContinueOption(string key, string hintText)
     : Option(key, hintText)
 {

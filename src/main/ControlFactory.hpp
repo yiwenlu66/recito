@@ -2,7 +2,11 @@
 #define CONTROLFACTORY_HPP
 
 #include "MainLoop.hpp"
-#include "ControlClass.hpp"
+#include "Control.hpp"
+#include "../common.hpp"
+
+class MainLoop;
+class Control;
 
 class ControlFactory
 {

@@ -139,9 +139,11 @@ TextDatabase<KeyType, RecordType>::~TextDatabase()
     typename map<KeyType, RecordType*>::iterator it;
     for (auto item : this->mKeyRecordMap)
     {
-        // uncomment after Record::~Record() is implemented
-        //delete item.second;
+        delete item.second;
     }
 }
 
+template class Database<string, WordRecord>;
+template class Database<string, HistoryRecord>;
 template class TextDatabase<string, WordRecord>;
+template class TextDatabase<string, HistoryRecord>;

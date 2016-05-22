@@ -5,9 +5,9 @@ ControlFactory::ControlFactory(MainLoop* mainloop)
 {
 }
 
-Control* ControlFactory::make(ControlClass controlclass)
+Control* ControlFactory::make(ControlClass controlClass)
 {
-    switch (controlclass)
+    switch (controlClass)
     {
     case ControlClass::MAIN_MENU:
         return new MainMenuControl(mMainLoop);
@@ -20,6 +20,6 @@ Control* ControlFactory::make(ControlClass controlclass)
     case ControlClass::TEXT:
         return new TextControl(mMainLoop);
     case ControlClass::QUIT:
-        exit(0);
+        return new QuitControl(mMainLoop);
     }
 }
