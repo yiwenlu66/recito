@@ -7,7 +7,7 @@ using namespace std;
 string TextDisplay::getInput() const
 {
     string str;
-    cin >> str;
+    getline(cin, str);
     return str;
 }
 

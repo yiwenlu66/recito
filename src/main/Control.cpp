@@ -220,6 +220,7 @@ void DictControl::handleString(string input)
     if (Control::mViewClass == ViewClass::EDIT)
     {
         overwriteExample(mCurrentWord, input);
+        setView(ViewClass::DICT_WORD);
     }
     else if (Control::mViewClass == ViewClass::DICT_INPUT)
     {
