@@ -61,7 +61,7 @@ enum class ControlClass
 // auxiliary functions
 vector<string> split(string s, char delimiter);
 string escape(string str, char toEscape, char substitute = '\0');
-vector<string> splitWord(string text);
+vector<string>* splitWord(string text);
 long long getCurrentTimeStamp();
 
 #endif

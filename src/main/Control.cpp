@@ -401,10 +401,10 @@ void TextControl::reEnterFileName()
 
 void TextControl::calText()
 {
-    vector<string> words(splitWord(mText));
-    for (unsigned long i = 0; i < words.size(); i++)
+    vector<string>* words = splitWord(mText);
+    for (unsigned long i = 0; i < words->size(); i++)
     {
-        WordRecord* temp(mMainLoop->getMainDatabase()->get(words[i]));
+        WordRecord* temp = mMainLoop->getMainDatabase()->get((*words)[i]);
         if (temp)
         {
             if (temp->getGroup() == Group::UNSEEN)
@@ -425,6 +425,7 @@ void TextControl::calText()
             }
         }
     }
+    delete words;
 }
 
 void TextControl::nextPage()

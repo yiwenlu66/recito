@@ -35,17 +35,16 @@ string escape(string str, char toEscape, char substitute)
     return newString;
 }
 
-vector<string> splitWord(string text)
+vector<string>* splitWord(string text)
 {
-    vector<string> words;
+    vector<string>* words = new vector<string>(1, "");
     int j = 0;
-    int k = 0;
     bool isInWord = false;
     for (unsigned long i = 0; i < text.size(); i++)
     {
         if (isalpha(text[i]))
         {
-            words[j][k++] = text[i];
+            (*words)[j].push_back(text[i]);
             isInWord = true;
         }
         else
@@ -53,7 +52,7 @@ vector<string> splitWord(string text)
             if (isInWord)
             {
                 isInWord = false;
-                k = 0;
+                words->push_back(string(""));
                 j++;
             }
         }
