@@ -190,7 +190,16 @@ void DictControl::findWord(string word)
     {
         mCurrentWord = word;
         Control::setView(ViewClass::DICT_WORD);
-        Control::mMainLoop->getHistoryDatabase()->add(word, new HistoryRecord(word, true));
+        auto historyDatabase = Control::mMainLoop->getHistoryDatabase();
+        auto historyRecord = historyDatabase->get(mCurrentWord);
+        if (historyRecord == nullptr)
+        {
+            historyDatabase->add(word, new HistoryRecord(word, true));
+        }
+        else
+        {
+            historyDatabase->update(historyRecord->getKey());
+        }
     }
     else
     {
@@ -207,12 +216,7 @@ void DictControl::goToDictMenu()
 
 void DictControl::goToHistoryWord(int i)
 {
-    auto historyDatabase = Control::mMainLoop->getHistoryDatabase();
-    mCurrentWord = mPageWords[i];
-    auto historyRecord = historyDatabase->get(mCurrentWord);
-    historyRecord->setTimeStamp(getCurrentTimeStamp());
-    historyDatabase->update(historyRecord->getKey());
-    Control::setView(ViewClass::DICT_WORD);
+    findWord(mPageWords[i]);
 }
 
 void DictControl::handleString(string input)
