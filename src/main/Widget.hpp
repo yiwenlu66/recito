@@ -184,7 +184,7 @@ protected:
 class ExamChoiceOption: public Option
 {
 public:
-    using Option::Option;
+    ExamChoiceOption(string key, string hintText);
 
 protected:
     virtual void callControl(Control*) const;

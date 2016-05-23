@@ -345,6 +345,11 @@ void ExamChoiceOption::callControl(Control* control) const
     }
 }
 
+ExamChoiceOption::ExamChoiceOption(string key, string hintText)
+    : Option(key, hintText + "\n")
+{
+}
+
 ExamContinueOption::ExamContinueOption(string key, string hintText)
     : Option(key, hintText)
 {
