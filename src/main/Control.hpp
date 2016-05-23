@@ -23,7 +23,7 @@ public:
     Control() = default;
     const View& getView() const;
     void showView() const;      // call View::show()
-    virtual void backToMainMenu();
+    void backToMainMenu();
     virtual ~Control();
 
 protected:
@@ -78,7 +78,6 @@ public:
         setView(ViewClass::MAIN_MENU);
     }
     void setControlClass(ControlClass);
-    void backToMainMenu() {  }
 };
 
 
@@ -93,7 +92,6 @@ public:
     virtual void chooseGroup(Group);
     virtual void editExample();
     virtual void handleString(string);
-    virtual void backToMainMenu();
     void addAnswer(int);    // 0,1,2,3
     void showAnswer();
     virtual ~MemoryControl();
@@ -117,7 +115,6 @@ public:
     }
     virtual void editExample();
     virtual void previousPage();
-    virtual void backToMainMenu();
     virtual void nextPage();
     virtual void handleString(string);
     void inputWord();               // redirect to DICT_INPUT view
@@ -145,7 +142,6 @@ public:
         Control::setView(ViewClass::CHOOSE_CATEGORY);
     }
     virtual void chooseGroup(Group);
-    virtual void backToMainMenu();
     void setTestNumber(int);
     void continueExam();
     void checkAnswer(string);
@@ -177,7 +173,6 @@ public:
     virtual void nextPage();
     virtual void handleString(string);
     virtual void editExample();
-    using Control::backToMainMenu;
     void reEnterFileName();
 
 private:

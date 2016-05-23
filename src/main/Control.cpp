@@ -50,6 +50,8 @@ void Control::showView() const
 
 void Control::backToMainMenu()
 {
+    Control::mMainLoop->getMainDatabase()->commit();
+    Control::mMainLoop->getHistoryDatabase()->commit();
     Control::mMainLoop->setControl(ControlClass::MAIN_MENU);
 }
 
@@ -144,12 +146,6 @@ void MemoryControl::addAnswer(int answer)
 
     mainDatabase->update(mCurrentWord);
     continueMemory();
-}
-
-void MemoryControl::backToMainMenu()
-{
-    Control::mMainLoop->getMainDatabase()->commit();
-    Control::mMainLoop->setControl(ControlClass::MAIN_MENU);
 }
 
 void MemoryControl::showAnswer()
@@ -284,13 +280,6 @@ void DictControl::nextPage()
     showHistory();
 }
 
-void DictControl::backToMainMenu()
-{
-    Control::mMainLoop->getHistoryDatabase()->commit();
-    Control::mMainLoop->getMainDatabase()->commit();
-    Control::mMainLoop->setControl(ControlClass::MAIN_MENU);
-}
-
 // end of DictControl
 
 // start of ExamControl
@@ -308,11 +297,6 @@ void ExamControl::chooseGroup(Group group)
     }
     mOptions.resize(min(mAllWordsInGroup.size(), static_cast<size_t>(EXAM_NUM_OPTIONS)));
     setView(ViewClass::EXAM_CHOOSE_NUMBER);
-}
-
-void ExamControl::backToMainMenu()
-{
-    Control::mMainLoop->setControl(ControlClass::MAIN_MENU);
 }
 
 void ExamControl::checkAnswer(string ans)
