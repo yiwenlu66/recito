@@ -194,6 +194,7 @@ void DictControl::findWord(string word)
         }
         else
         {
+            historyRecord->setTimeStamp(getCurrentTimeStamp());
             historyDatabase->update(historyRecord->getKey());
         }
     }
