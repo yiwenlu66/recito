@@ -155,7 +155,7 @@ HistoryRecord::HistoryRecord(string str, bool newRecord)
         mKey = inputs[0];
         char* e;
         errno = 0;
-        mTimestamp = strtol(inputs[1].c_str(), &e, 10);
+        mTimestamp = strtoll(inputs[1].c_str(), &e, 10);
         if (*e != '\0' || errno != 0)
         {
             throw * (new runtime_error("Broken record!"));
