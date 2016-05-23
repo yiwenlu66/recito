@@ -56,7 +56,7 @@ bool MaxNumberInput::handleInput(string input, Control* control) const
         char* e;
         errno = 0;
         parsedInt = strtol(input.c_str(), &e, 10);
-        if (*e != '\0' || errno != 0 || parsedInt > mMaxNum)
+        if (*e != '\0' || errno != 0 || parsedInt < 0 || parsedInt > mMaxNum)
         {
             // illegal input
             return false;
