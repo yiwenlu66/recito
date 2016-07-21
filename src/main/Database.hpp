@@ -2,6 +2,7 @@
 #define DATABASE_HPP
 
 #include <map>
+#include <string>
 
 using namespace std;
 
