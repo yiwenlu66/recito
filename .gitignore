@@ -47,3 +47,6 @@ Win32/
 
 # recito
 history.txt
+
+# CLion
+.idea/
